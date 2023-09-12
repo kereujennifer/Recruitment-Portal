@@ -1,0 +1,88 @@
+﻿@model Auth.Models.ViewModels.Auth.RegisterVM;
+@using Auth.Services
+@inject IDropDownService dropdownservice;
+@{
+    ViewData["Title"] = "Add Users";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row d-flex flex-row">
+    <div class="col-md-3">
+        @*<h5 class="primary-text">Add User</h5>*@
+    </div>
+    <div class="col-md-9  d-flex flex-row-reverse card-stitle">
+        <a class="primary-text d-flex align-items-center" asp-action="Index">
+            <i class="ri-arrow-left-s-line"></i> <span>Back to Users list</span>
+        </a>
+    </div>
+</div>
+<div class="row bg-white shadow mt-2">
+    <div class="col-md-12 ">
+        <div class="card ">
+            <div class="card-body ">
+
+                <div class="form-group">
+             
+                    <form method="post">
+                        <div class="row">
+                            <div class="col-md-9 mb-3">
+                                <label asp-for="FullName" class="control-label"></label>
+                                <input asp-for="FullName" class="form-control" />
+                                <span asp-validation-for="FullName" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9 mb-3">
+                                <label asp-for="Email" class="control-label"></label>
+                                <input asp-for="Email" class="form-control" />
+                                <span asp-validation-for="Email" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-9 mb-3">
+                                <label asp-for="Password" class="control-label"></label>
+                                <input type="password" asp-for="Password" class="form-control" />
+                                <span asp-validation-for="Password" class="text-danger"></span>
+                            </div>
+                        </div>
+                      
+                      
+
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <button type="submit" class="btn btn-primary-2 ms-2">Save</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section Scripts
+    {
+    <script>
+        $('#Role').change(function () {
+            var id = $("#Role").val();
+            $.ajax({
+                type: "POST",
+                url: "/UserManagement/GetUsergroup?role=" + id,
+                success: function (result) {
+                    $('#UserGroup').html('');
+                    var options = '';
+                    options += '<option value="">Select UserGroup</option>';
+                    for (var i = 0; i < result.length; i++) {
+                        options += '<option value="' + result[i].id + '">' + result[i].groupName + '</option>';
+                    }
+                    $('#UserGroup').append(options);
+                },
+                error: function (data) {
+                    alert(data);
+                }
+            });
+        })
+    </script>
+}

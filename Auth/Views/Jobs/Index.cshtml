@@ -1,0 +1,94 @@
+﻿@model IEnumerable<Auth.Models.Jobs>
+
+@{
+    ViewData["Title"] = "Jobs";
+}
+
+
+<div class="card box-shadow m-2 p-5">
+    <div class="row justify-content-end">
+
+        <div class="col-lg-2 col-md-6">
+            <a class="btn primary mb-2" asp-action="Create"><i class="ri-add-line"></i>Add</a>
+        </div>
+
+    </div>
+<table class="table border table-responsive" id="example">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Employer)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Location)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Industry)
+            </th>
+         @*   <th>
+                @Html.DisplayNameFor(model => model.OverallPurpose)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Specifications)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PersonalSpecifications)
+            </th>*@
+            <th>
+                @Html.DisplayNameFor(model => model.ClosingDate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Employer)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Location)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Industry)
+            </td>
+           @* <td>
+                @Html.DisplayFor(modelItem => item.OverallPurpose)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Specifications)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PersonalSpecifications)
+            </td>*@
+            <td>
+                @Html.DisplayFor(modelItem => item.ClosingDate)
+            </td>
+            <td>
+                        <a asp-action="Edit" asp-route-id="@item.Id">
+                            <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                               data-bs-custom-class="custom-tooltip"
+                               data-bs-title="edit"></i>
+                        </a>
+                        <a asp-action="Details" asp-route-id="@item.Id">
+                            <i class="ri-eye-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                               data-bs-custom-class="custom-tooltip"
+                               data-bs-title="eye"></i>
+                        </a>
+                        <a asp-action="Delete" asp-route-id="@item.Id">
+                            <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                               data-bs-custom-class="custom-tooltip"
+                               data-bs-title="delete"></i>
+                        </a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+</div>

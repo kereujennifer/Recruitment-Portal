@@ -1,0 +1,48 @@
+﻿@model Auth.Models.ProfessionalBodies
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>ProfessionalBodies</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Qualifications)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Qualifications)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.MemberSince)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.MemberSince)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Ongoing)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Ongoing)
+        </dd>
+      @*  <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.userID)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.userID)
+        </dd>*@
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

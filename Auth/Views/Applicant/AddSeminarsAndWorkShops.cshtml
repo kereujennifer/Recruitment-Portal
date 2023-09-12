@@ -1,0 +1,84 @@
+﻿@using Auth.Models.ViewModels;
+@using Auth.Services;
+@model JobProfileViewModel;
+@inject IDropDownService dropdownservice;
+
+@{
+    var btnText = "";
+    if (Model.isEdit)
+    {
+        ViewData["Title"] = "Edit SeminarsAndWokshops";
+        btnText = "Update";
+    }
+    else
+    {
+        ViewData["Title"] = "Add SeminarsAndWokshops";
+        btnText = "Save";
+    }
+
+}
+<div class="card box-shadow m-2 p-5">
+    <div class="card-body">
+ <form asp-action="AddSeminarsAndWorkShops">
+    <div class="row">
+        <div class="col">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="userID" type="hidden" />
+
+            <div class="form-group">
+                <label asp-for="Type" class="control-label"></label>
+                <input asp-for="Type" class="form-control" />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Award" class="control-label"></label>
+                <input asp-for="Award" class="form-control" />
+                <span asp-validation-for="Award" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="From" class="control-label"></label>
+                <input asp-for="From" class="form-control" />
+                <span asp-validation-for="From" class="text-danger"></span>
+            </div>
+        </div>
+        <div class="col">
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Institution" class="control-label"></label>
+                <input asp-for="Institution" class="form-control" />
+                <span asp-validation-for="Institution" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="To" class="control-label"></label>
+                <input asp-for="To" class="form-control" />
+                <span asp-validation-for="To" class="text-danger"></span>
+            </div>
+        </div>
+         
+          
+           
+          </div>
+            
+    <div class="col-md-9 mb-2 d-flex justify-content-end mt-3">
+        <a type="button" class="btn btn-outline-primary-2" asp-action="Index" asp-controller="Applicant">Cancel</a>
+        <button type="submit" class="btn btn-primary-2 ms-2">@btnText</button>
+    </div>
+
+</form>
+</div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

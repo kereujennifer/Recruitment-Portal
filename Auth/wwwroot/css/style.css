@@ -1,0 +1,430 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;400;500;600;700;800;900&display=swap');
+
+/* -------------------------
+01:Body styling
+02:Page wrapper of side nav and Inner content
+03:Navigation bar styling
+04:Logos styling
+05:Side Navbar styling
+06:Side nav Icons styling section
+07:SIde nav bar items naming styling section
+08:Card styling
+
+
+--------------------------*/
+.card {
+    padding =0;
+}
+
+.card-wrapper {
+}
+:root {
+    --primary-color: #0F3597;
+}
+    /* -------------------------
+01:Body styling
+--------------------------*/
+    * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+body {
+    /* display: flex;
+    justify-content:center;
+    align-items: center; */
+    min-height: 100vh;
+    background: #EAEFF5 !important;
+}
+.grey-bg {
+    background-color: #F5F7FA;
+}
+/* -------------------------
+02:Page wrapper of side nav and Inner content
+--------------------------*/
+.pagebody-wrapper {
+    display: flex;
+    flex-direction: row;
+}
+.Innerwrapper-section {
+    margin-top: 6rem !important;
+    position: relative;
+    margin: 1rem 3rem;
+    width:100%
+}
+/* .PageContent-Section{
+    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+} */
+
+.profile-avatar 
+{
+  cursor:pointer;
+}
+/*...............
+03:Navigation bar styling
+................*/
+.top-navigation {
+    background-color: white;
+    height: 5rem;
+    width: 100%;
+    position: fixed;
+    z-index: 5; 
+    box-shadow: 0 0 0 1px rgb(20 20 31 / 5%), 0 1px 3px 0 rgb(20 20 31 / 15%);
+}
+.top-navigation .container-fluid{
+    display: flex;
+    justify-content: space-between;
+}
+/*...............
+04:Logos styling
+................*/
+.logos {
+    margin-top:10px;
+    display:flex;
+    flex-direction:row;
+}
+.Algoz-logo  {
+    height: 45px;
+    padding-left:20px;
+    order:3;
+}
+.Abno-logo {
+    padding-left: 10px;
+    height: 45px;
+    order: 1;
+}
+.vl {
+    border-left: 2px solid #D6D6D6;
+    height: 50px;
+    order: 2;
+    margin-left: 10px;
+}
+/*...............
+04:profile and icons styling
+................*/
+.right-navbar {
+    display: flex;
+    align-items: center;
+}
+
+.widgets {
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+}
+.widgets-icon {
+    color: #5390C7;
+}
+.profile-items {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.profile-img {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.profile-avatar {
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+/*.................
+05:Side Navbar styling
+...................*/
+.Side-navigation  
+{
+    position: fixed;
+    height: 1080px;
+    width: 270px;
+    background: #213373;
+    overflow-x: hidden;
+    transition: width 0.5s;
+    margin-top: 4rem;
+
+}
+
+.Side-navigation  ul 
+{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width:100%;
+    padding-left: 5px;
+    padding-top: 44px;
+}
+
+.Side-navigation  ul li 
+{
+    position: relative;
+    list-style: none;
+    width: 100%;
+    border-top-left-radius:20px;
+    border-bottom-left-radius:20px;
+    cursor: pointer
+}
+
+.Side-navigation  ul li.active 
+{
+ background: #EAEFF5;
+ 
+}
+    .Side-navigation ul li.active a,
+    .Side-navigation ul li.active .title {
+        color: var(--primary-color);
+    }
+
+.title.active {
+    color: blue;
+}
+.Side-navigation  ul li a 
+{
+    position: relative;
+    display: block;
+    width: 100%;
+    display: flex;
+    text-decoration: none;
+    color: white;
+}
+.Side-navigation  ul li.active a::before
+{
+    content: '';
+    position: absolute;
+    top:-30px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 15px 15px 0 #EAEFF5;
+}
+.Side-navigation ul li.active a::after {
+    content: '';
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+    width: 30px;
+    height: 30px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    box-shadow: 15px -15px 0 #EAEFF5;
+}
+/*.....................
+06:Side nav Icons styling section
+......................*/
+.Side-navigation  ul li a .icon 
+{
+ position: relative;
+ display: block;
+ min-width: 60px;
+ height: 60px;
+ line-height: 70px;
+ text-align: center;
+}
+.Side-navigation  ul li a .icon ion-icon
+{
+    position: relative;
+    font-size: 1.5rem;
+    z-index: 1;
+}
+
+/*.........................
+07:SIde nav bar items naming styling section
+.........................*/
+.Side-navigation  ul li a .title 
+{
+    position: relative;
+    display: block;
+    padding-left: 18px;
+    height: 60px;
+    line-height: 60px;
+    white-space: nowrap;
+    color:white;
+}
+
+/*.........................
+08:dropdown styling
+.........................*/
+
+.Profile-dropdown {
+    margin-top: 50px;
+    border: 0;
+    font-weight: 400;
+    box-shadow: 0 0 0 1px rgb(20 20 31 / 5%), 0 2px 7px 1px rgb(20 20 31 / 16%);
+    position: absolute;
+    right: 2rem;
+    top: 5rem;
+    width: 12rem;
+    z-index: 1000;
+    float: left;
+    min-width: 8rem;
+    padding: 0.5rem 0;
+    margin: 0.125rem 0 0;
+    font-size: 1rem;
+    color: #363642;
+    text-align: left;
+    list-style: none;
+    background-color: hsla(0,0%,100%,.98);
+    background-clip: padding-box;
+    border: 1px solid rgba(20,20,31,.15);
+    border-radius: 0.25rem;
+    display: none;
+}
+
+
+.details {
+    display: flex;
+    flex-direction: column;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 20px;
+}
+.details .text-primary-2:hover{
+    color: var(--secondary-color) !important;
+}
+a:link {
+    text-decoration: none !important;
+}
+/*.........................
+09:Chat feature styling
+.........................*/
+.chat-feature {
+    background-color: #0b3193;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top:600px;
+    top:0px;
+    right: 0px;
+    position:fixed;
+    color: white;
+    z-index: 1000;
+    border: 0px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+
+@media (max-width:600px) {
+    .top-navigation {
+        width: stretch;
+        background-color: white;
+        width: 100%;
+        height: 3rem !important;
+        box-shadow: 0 0 0 1px rgb(20 20 31 / 5%), 0 1px 3px 0 rgb(20 20 31 / 15%);
+    }
+
+    .Side-navigation {
+        position: relative;
+        height: 2000px;
+        width: 70px;
+        background: #213373;
+        overflow-x: hidden;
+        transition: width 0.5s;
+    }
+    .logos {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: row;
+    }
+
+    .Algoz-logo {
+        height: 30px;
+        padding-left: 10px;
+        order: 3;
+    }
+
+    .Abno-logo {
+        padding-left: 1px;
+        height: 30px;
+        order: 1;
+    }
+
+    .vl {
+        border-left: 2px solid #D6D6D6;
+        height: 30px;
+        order: 2;
+        margin-left: 5px;
+    }
+    .profile-img {
+        margin-right: 1rem;
+        padding-left: 0px;
+        padding-right: 1rem;
+        cursor: pointer
+    }
+
+    .profile-avatar {
+        width: 1.5rem;
+        height: 1.5rem;
+    }
+    fa-lg {
+        font-size: 0px;
+        line-height: 0px;
+        margin-top:15px;
+    }
+    .widgets {
+        display: flex;
+        align-items: center;
+        padding-left: 0.5rem;
+    }
+    .profile-items {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        margin-top:10px;
+    }
+    .Innerwrapper-section {
+        position: relative;
+        width: 100%;
+    }
+    .timeline-title  {
+        font-size: 0.8rem;
+    }
+    .timeline-date {
+        font-size: 0.8rem;
+    }
+    .timeline-content {
+        font-size: 0.8rem;
+    }
+}
+@media (max-width:768px) {
+    .Side-navigation {
+        position: relative;
+        height: 1800px;
+        width: 70px;
+        background: #213373;
+        overflow-x: hidden;
+        transition: width 0.5s;
+      }
+    .img {
+        border-style: none;
+        width: 100%;
+        object-fit: cover
+    }
+    .modal-content
+    {
+        padding:20px;
+    }
+          
+            
+    }
+
+element.style {
+}
+
+.product.product-img{
+    border-style: none;
+    width: 100%;
+    object-fit: cover
+}
+    /*.img{
+        width:100%;
+        height:auto;
+    }*/
+  }

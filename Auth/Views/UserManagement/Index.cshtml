@@ -1,0 +1,227 @@
+﻿@model IEnumerable<ApplicationUser>;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> user;
+@{
+    ViewData["Title"] = "User Management";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 1;
+}
+
+<section class="header mt-2">
+    <div class="row justify-content-end">
+
+        <div class="col-lg-2 col-md-6">
+            <a class="btn primary mb-2" asp-action="AddUser"><i class="ri-add-line"></i>Add </a>
+        </div>
+
+    </div>
+
+</section>
+<div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+    <!--Contentgrid-->
+    <div class="container mb-3 p-3 table-responsive">
+        <table id="example" class="table  border table-responsive "style="width:100%">
+            <thead class="thead">
+                <tr>
+                    <th>#</th>
+                    <th>Username</th>
+                    <th>Email</th>
+
+                    <th>Activation Status</th>
+                    <th>Status</th>
+
+                    <th>Roles</th>
+                    <th>Approve/Reject</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Count() > 0)
+                {
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>@count</td>
+                            <td>@item.UserName</td>
+                            <td>@item.Email</td>
+
+                            <td>
+                                @if (item.ActivationStatus)
+                                {
+                                    <span>Confirmed</span>
+                                }
+                                else
+                                {
+                                    <span>Not Confirmed</span>
+                                }
+                            </td>
+                            <td>
+                                @if (@item.Status)
+                                {
+                                    <span>Active ||</span>
+                                    <span><a asp-action="UpdateUsersStatus" asp-route-id="@item.Id">Deactivate</a></span>
+                                }
+                                else
+                                {
+                                    <span>Inactive ||</span>
+                                    <span><a asp-action="UpdateUsersStatus" asp-route-id="@item.Id">Activate</a></span>
+                                }
+                            </td>
+
+                            <td>
+                                <button type="button" class="btn primary w-auto " data-bs-toggle="modal" data-bs-target="#exampleModal">
+                                    Change Role
+                                </button>
+                            </td>
+                            <td>
+                                <div class="btn-area">
+                                    <a class="bg-danger-2 btn text-white" asp-action="Deactivate" asp-route-id="@item.Id">Reject</a>
+                                    <a class="bg-success-2 btn" asp-action="Approve" asp-route-id="@item.Id">Approve</a>
+                                </div>
+                            </td>
+
+                            <td>
+                                <div class="d-flex flex-row">
+
+                                    <a class="btn btn-link" asp-action="AdminResetPassword" asp-route-id="@item.Id">
+                                        <i class="ri-key-fill primary-text" data-bs-toggle="tooltip" data-bs-placement="right"
+                                           data-bs-custom-class="custom-tooltip" data-bs-title="Reset Password"></i>
+                                    </a>
+                                    <form id="cred-@item.Id" asp-action="DeleteUser" asp-route-id="@item.Id">
+                                        <button type="button" class="btn btn-link" id="cred-@item.Id" onclick="return deleteuserConfirm(this)">
+                                            <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="delete"></i>
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+                        </tr>
+                        count++;
+                    }
+                }
+                else
+                {
+
+
+                    @*<div class="col-md-12 d-flex justify-content-center ">
+                        <img src="~/assets/images/empty-box.png" class="no-data-img" />
+                    </div>
+                    <div class="col-md-12 text-center p-4">
+                        <h3 class="primary-text">No Products</h3>
+                        <p>No Products found</p>
+                    </div>*@
+
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h1 class="modal-title fs-5" id="exampleModalLabel">Change UserRole</h1>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-9 mb-3">
+                        <label>Role</label>
+                        <select class="form-control" ">
+                            <option value="0">select role</option>
+                            <option value="1">User</option>
+                            <option value="2">Admin</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="Role"></span>
+                    </div>
+                    </div>
+            </div>
+            <div class="modal-footer">
+             
+
+                <div class="col-lg-2 col-md-6">
+                    <button type="submit" class="btn primary mb-2" >Save </button>
+                </div>
+
+            </div>
+         
+            </div>
+        </div>
+    </div>
+
+
+@section Scripts
+    {
+    <script>
+        const deleteuserConfirm = e => {
+
+            var vId = e.id;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-danger mx-2',
+                    cancelButton: 'btn btn-outline-primary-2'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure ?',
+                html: "Do you really want to delete these record? <br/> This process cannot be undone",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success',
+                        '2000'
+                    )
+
+                    setTimeout(() => $("#" + vId).submit(), 1000)
+                }
+            })
+        }
+
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#userTable").DataTable({
+                "processing": true,
+                "serverSide": true,
+                "filter": true,
+                "ajax": {
+                    "url": "/UserManagement/GetUsers",
+                    "type": "POST",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+                    "visible": false,
+                    "searchable": false
+                }],
+                "columns": [
+                    { "data": "sn", "name": "#", "autoWidth": true },
+                    { "data": "userName", "name": "Username", "autoWidth": true },
+                    { "data": "email", "name": "Email", "autoWidth": true },
+                    { "data": "userGroup", "name": "Group", "autoWidth": true },
+                    { "data": "dateCreated", "name": "Date Created", "autoWidth": true },
+                    { "data": "activationStatus", "name": "Activation Status", "autoWidth": true },
+                    { "data": "link", "name": "Status", "autoWidth": true },
+                    { "data": "actionLink", "name": "Action", "autoWidth": true },
+                ]
+            });
+        });
+    </script>
+    <script>
+      
+
+    </script>
+}

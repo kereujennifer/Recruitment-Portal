@@ -1,0 +1,128 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Auth.Services
+
+@using Auth.Models
+@inject IClientSetupService service;
+@inject SignInManager<ApplicationUser> signInManager;
+@inject UserManager<ApplicationUser> user;
+@{
+    var userSet = await user.GetUserAsync(User);
+    var settings = service.Read().Data;
+   
+    var abnologo = string.IsNullOrEmpty(settings.LogoImage) ? "../images/abno-logo.png" : $"../uploads/{settings.LogoImage}";
+    var algozlogo = string.IsNullOrEmpty(settings.TeamLogo) ? "../images/algoz-logo.png" : $"../uploads/{settings.TeamLogo}";
+
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@settings.ClientName</title>
+    <link rel="icon" href="@settings.LayoutImage" />
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <link rel="stylesheet" href="~/css/page/styles.css">
+
+    <script>
+        debugger
+        let primColor = "@(settings.PrimaryColor)";
+        let secColor = "@(settings.SecondaryColor)";
+
+        if(primColor){
+            //document.documentElement.style.cssText = "--primary-color: "+primColor;
+            document.documentElement.style.setProperty('--primary-color', primColor);
+        }
+        if(secColor){
+            document.documentElement.style.setProperty('--secondary-color', secColor);
+            //document.documentElement.style.cssText = "--secondary-color: "+secColor;
+        }
+    </script>
+</head>
+
+<body>
+    <!-------------- *start of Top Nav*  ---------------->
+    <nav class="navbar navbar-expand-lg navbar-light sticky-top bg-white home">
+        <div class="container">
+            <div class="logo">
+                <a class="navbar-brand" href="#">
+                    <img src="~/images/abno-logo.png" alt="">
+                </a>
+                @*<a class="navbar-brand" href="#">
+                        <img src="~/assets/images/ABNO SOFTWARE LOGO-SQUARE .png" alt="">
+                    </a>*@
+            </div>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse " id="navbarSupportedContent">
+                <ul class="navbar-nav  ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link toEffect active" aria-current="page" href="#hero">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link toEffect" href="#about">Core Values</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link toEffect" href="#products">Products</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link btn btn-outline-primary" asp-controller="Auth" asp-action="Register">Register</a>
+                    </li>
+
+                    <li class="nav-item ">
+                        <a class="nav-link btn primary" asp-controller="Auth" asp-action="Login">Login</a>
+                    </li>
+
+
+                </ul>
+
+            </div>
+        </div>
+    </nav>
+    <!---------------- *end of Top Nav*  ---------------->
+
+    @RenderBody()
+
+    <!-------------- *start of footer*  ---------------->
+    <footer>
+        <div class="container-fluid mt-1">
+            <div class="logo"><img src="./images/abno-logo-white.png" alt=""></div>
+
+            <div class="copyright"><p>Copyright©@DateTime.Now.Year - ABNO Softwares International | All Rights Reserved</p></div>
+        </div>
+    </footer>
+    <!---------------- *end of footer*  ---------------->
+    <!-- JavaScript Bundle with Popper -->
+    <script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous">
+    </script>
+
+
+    <!-- Swiper JS -->
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src='~/js/main.js'></script>
+    <script>
+
+        let primColor = settings.PrimaryColor;
+        let secColor = settings.SecondaryColor;
+
+        if (primColor) {
+            document.documentElement.style.cssText = "--primary-color: " + primColor;
+        }
+        if (secColor) {
+            document.documentElement.style.cssText = "--secondary-color: " + secColor;
+        }
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,28 @@
+﻿@model Auth.Models.ViewModels.Auth.LoginVM;
+@{
+    ViewData["Title"] = "Login";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<partial name="_LogoHeaderPartial" />
+<form method="post">
+    <div class="form-group">
+        <input asp-for="UserName" class="form-control" type="text" placeholder="UserName/Email" />
+        <ion-icon name="person-outline"></ion-icon>
+        <span class="text-danger" asp-validation-for="UserName"></span>
+    </div>
+
+    <div class="form-group">
+        <input asp-for="Password" class="form-control" type="password" placeholder="Password" />
+        <ion-icon name="lock-closed-outline"></ion-icon>
+        <span class="text-danger" asp-validation-for="Password"></span>
+    </div>
+
+    <div class="remember">
+        <label> <input asp-for="RememberMe" type="checkbox" /> Remember Me</label>
+        <a href="#">Forgot Password?</a>
+
+    </div>
+    <button type="submit" class="btn primary w-100">Sign In</button>
+    <p class="noAcc">Don’t have account ? <a asp-action="Register" asp-controller="Auth"> Register as new member</a></p>
+</form>

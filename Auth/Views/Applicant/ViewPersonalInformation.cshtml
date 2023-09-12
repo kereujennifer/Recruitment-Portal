@@ -1,0 +1,124 @@
+﻿@using Auth.Models.ViewModels;
+@model JobProfileViewModel;
+@{
+    ViewData["Title"] = "Personal Details";
+}
+
+<div>
+@*    <h4>PersonalInformation</h4>
+*@    <hr />
+    <dl class="row">
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Title)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Title)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.PhoneNumber)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.AlternatePhoneNumber)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.AlternatePhoneNumber)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.DateOfBirth)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.DateOfBirth)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.IDDocument)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.IDDocument)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.IDDocumentNumber)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.IDDocumentNumber)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Email)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Email)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.MaritalStatus)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.MaritalStatus)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Gender)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Gender)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Address)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Address)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Nationality)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Nationality)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.County)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.County)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Ethnicity)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Ethnicity)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Languages)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Languages)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Disability)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Disability)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.DisabilityCondition)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.DisabilityCondition)
+        </dd>
+        <dt class="col-4">
+            @Html.DisplayNameFor(model => model.Skills)
+        </dt>
+        <dd class="col-8">
+            @Html.DisplayFor(model => model.Skills)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a  asp-controller="Applicant" asp-action="EditPersonalInformation">Edit</a> 
+    <a asp-action="Index">Back to List</a>
+</div>

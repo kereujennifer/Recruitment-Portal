@@ -1,0 +1,329 @@
+﻿@using Microsoft.AspNetCore.Identity
+@using Auth.Services
+
+@using Auth.Models
+@inject IClientSetupService service;
+@inject SignInManager<Auth.Models.ApplicationUser> signInManager;
+@inject UserManager<Auth.Models.ApplicationUser> user;
+@{
+    var userSet = await user.GetUserAsync(User);
+    var settings = service.Read().Data;
+    //var prof = string.IsNullOrEmpty(userSet.ImageRef)
+    //    ? "/assets/images/portrait-real-black-african-man-no-expression-id-passport-photo-studio-shot-blue-wall-194405582.jpg"
+    //    : $"/uploads/{userSet.ImageRef}";
+    var abnologo = string.IsNullOrEmpty(settings.LogoImage) ? "../images/abno-logo.png" : $"../uploads/{settings.LogoImage}";
+    var algozlogo = string.IsNullOrEmpty(settings.TeamLogo) ? "../images/algoz-logo.png" : $"../uploads/{settings.TeamLogo}";
+
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- boostrap cdn -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <!-- Fontawesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="~/css/style.css">
+    <link rel="stylesheet" href="~/css/site.css">
+    <!-- Remixicons -->
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@2.5.0/fonts/remixicon.css" rel="stylesheet">
+    <!-- page css -->
+    <link rel="stylesheet" href="~/css/page/styles.css">
+    <link rel="stylesheet" href="~/css/DashboardStyleSheet.css">
+@*    <link href="https://cdn.datatables.net/1.13.4/css/dataTables.bootstrap5.min.css" />
+*@    <link href=" https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.2.0/css/bootstrap.min.css" />
+    <!-- Bootsrap -->
+    <link href="https://cdn.datatables.net/buttons/2.3.6/css/buttons.bootstrap5.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/dataTables.semanticui.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" asp-append-version="true">
+
+    @*<link rel="stylesheet" href="https://cdn.datatables.net/1.12.0/css/jquery.dataTables.min.css">
+    <link href="https://cdn.datatables.net/1.12.1/css/dataTables.bootstrap5.min.css" rel="stylesheet" asp-append-version="true" />*@
+    <!-- Toaster -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" rel="stylesheet" />
+
+@*    <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css" />
+*@    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" asp-append-version="true" />
+    <!-- chart.js cdn -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+    <script src="https://cdn.tiny.cloud/1/no-api-key/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
+    <script>
+        tinymce.init({
+            selector: 'textarea#tiny',
+            plugins: [
+                'a11ychecker', 'advlist', 'advcode', 'advtable', 'autolink', 'checklist', 'export',
+                'lists', 'link', 'image', 'charmap', 'preview', 'anchor', 'searchreplace', 'visualblocks',
+                'powerpaste', 'fullscreen', 'formatpainter', 'insertdatetime', 'media', 'table', 'help', 'wordcount'
+            ],
+            toolbar: 'undo redo | a11ycheck casechange blocks | bold italic backcolor | alignleft aligncenter alignright alignjustify |' +
+                'bullist numlist checklist outdent indent | removeformat | code table help',
+            forced_root_block: '', // No forced root block
+            force_p_newlines: false, // Don't convert newlines to <p> elements
+        });
+
+        // Function to remove HTML tags from a string
+        function stripHtmlTags(html) {
+            var temp = document.createElement("div");
+            temp.innerHTML = html;
+            return temp.textContent || temp.innerText || "";
+        }
+
+        // Example: Saving content as plain text when submitting the form
+        document.querySelector('form').addEventListener('submit', function (e) {
+            // Find all textarea elements with TinyMCE enabled using the generic selector
+            var textAreas = document.querySelectorAll('textarea#tiny');
+
+            // Process and save content for each textarea
+            textAreas.forEach(function (textArea, index) {
+                var content = tinymce.get(textArea.id).getContent();
+                var plainTextContent = stripHtmlTags(content);
+
+                // Assuming you have corresponding hidden input fields with IDs like "OverallPurposePlainText1", "SpecificationsPlainText1", etc.
+                var plainTextId = textArea.id.replace('tiny', ''); // Extract the ID number
+
+                // Assign plain text content back to the corresponding hidden input fields or send them to the server as needed
+                document.querySelector('#OverallPurposePlainText' + plainTextId).value = plainTextContent;
+            });
+        });
+
+
+
+    </script>
+
+    <link rel="icon" href="@settings.LayoutImage" />
+    <title>@settings.ClientName</title>
+    <script>
+        debugger
+        let primColor = "@(settings.PrimaryColor)";
+        let secColor = "@(settings.SecondaryColor)";
+
+        if (primColor) {
+            //document.documentElement.style.cssText = "--primary-color: "+primColor;
+            document.documentElement.style.setProperty('--primary-color', primColor);
+        }
+        if (secColor) {
+            document.documentElement.style.setProperty('--secondary-color', secColor);
+            //document.documentElement.style.cssText = "--secondary-color: "+secColor;
+        }
+    </script>
+</head>
+<body>
+    <div class="top-navigation">
+        <div class="container-fluid">
+
+            <div class="logos">
+                <div class="vl"></div>
+                <img class="Algoz-logo " src="~/images/ABNO SOFTWARE LOGO-SQUARE .png" alt="" srcset="">
+
+                @*<img class="Abno-logo " src="abnologo" alt="" srcset="">*@
+            </div>
+            <div class="right-navbar">
+                <div class="profile-items">
+                    <div class="widgets">
+                    </div>
+                    <div>
+                        <a href="#">
+                            <span class="icon"><ion-icon name="notifications-outline"></ion-icon></span>
+                        </a>
+                    </div>
+                    <div>
+                        <a href="\Auth\logout">
+                            <span class="icon"><ion-icon name="log-out-outline"></ion-icon></span>
+                        </a>
+                    </div>
+
+                   
+                    
+                </div>
+
+
+
+            </div>
+
+            <!--Profile dropdown starts here-->
+        </div>
+    </div>
+
+    <div class="Profile-dropdown" id="show-dropdown">
+        <div class="details">
+
+            @if (signInManager.IsSignedIn(User))
+            {
+                <form method="post" asp-controller="Auth" asp-action="logout">
+                    <button type="submit" class="btn btn-link text-primary-2"><i class="fas fa-sign-out-alt"></i> Logout</button>
+                </form>
+            }
+            @*   <a href="" class="mb-2">
+            <span class="fa-solid fa-arrow-right-from-bracket"></span> Logout
+            </a>*@
+        </div>
+    </div>
+
+    <!--Profile dropdown ends here-->
+
+    <div class="pagebody-wrapper">
+        <!--Start of Side Navigation -->
+        <div class="Side-navigation primary-color" id="side-nav">
+            <ul>
+
+                <button class="btn btn-toggle d-inline-flex align-items-center rounded border-0 collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
+
+                </button>
+              <li class="list active" id="dashboard">
+                        <a asp-controller="Home" asp-action="Dashboard">
+                            <span class="icon"><ion-icon name="home-outline"></ion-icon></span>
+                            <span class="title">Dashboard</span>
+                        </a>
+                    </li>
+
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("User"))
+                {
+
+
+                    <li class="list" id="EducationalBackGrounds">
+                        <a asp-controller="Applicant" asp-action="Index">
+                            <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                            <span class="title">JobProfile</span>
+                        </a>
+                    </li>
+                    <li class="list" id="MyApplications">
+                        <a asp-controller="JobApplications" asp-action="MyApplications">
+                            <span class="icon"><ion-icon name="book-outline"></ion-icon></span>
+                            <span class="title">My Applications</span>
+                        </a>
+                    </li>
+                }
+              
+               @* <li class="list" id="ProfessionalBodies">
+                    <a asp-controller="ProfessionalBodies" asp-action="Index">
+                        <span class="icon"><ion-icon name="people-outline"></ion-icon></span>
+                        <span class="title">Professional Bodies</span>
+                    </a>
+                </li>
+                <li class="list" id="PracticingLicenses">
+                    <a asp-controller="PracticingLicenses" asp-action="Index">
+                        <span class="icon"><ion-icon name="document-outline"></ion-icon></span>
+                        <span class="title">PracticingLicenses</span>
+                    </a>
+                </li>*@
+              
+                @if (signInManager.IsSignedIn(User) && User.IsInRole("Admin"))
+                {
+
+                    <li class="list" id="jobs">
+                        <a asp-controller="Jobs" asp-action="Index">
+                            <span class="icon"><ion-icon name="briefcase-outline"></ion-icon></span>
+                            <span class="title">Jobs</span>
+                        </a>
+                    </li>
+                    <li class="list" id="JobApplications">
+                        <a asp-controller="JobApplications" asp-action="Index">
+                            <span class="icon"><ion-icon name="business-outline"></ion-icon></span>
+                            <span class="title">Job Applications</span>
+                        </a>
+                    </li>
+                    <li class="list" id="InterView&Evaluation">
+                        <a asp-controller="InterviewAndEvaluation" asp-action="Index">
+                            <span class="icon"><ion-icon name="stats-chart-outline"></ion-icon></span>
+                            <span class="title">InterView&Evaluation</span>
+                        </a>
+                    </li>
+
+                    <li class="list" id="products">
+                        <a asp-controller="UserManagement" asp-action="Index">
+                            <span class="icon"><ion-icon name="person-outline"></ion-icon></span>
+                            <span class="title">User Management</span>
+                        </a>
+                    </li>
+                    <li class="list" id="stngs">
+                        <a asp-controller="Settings" asp-action="Index">
+                            <span class="icon"><ion-icon name="settings-outline"></ion-icon></span>
+
+                            <span class="title">Settings</span>
+                        </a>
+                    </li>
+                }
+                
+            </ul>
+        </div>
+        <!--End of Side Navigation -->
+        <!--Start Inner page Content -->
+
+        <div class="Innerwrapper-section">
+            <div class="page">
+                <div class="inner-page">
+                    <div class="page-title">
+                        <h2 class="text-primary-2">@ViewData["Title"]</h2>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            @RenderBody()
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--End Inner page Content -->
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <!--Datatalble -->
+    <script src="https://cdn.datatables.net/1.12.0/js/jquery.dataTables.min.js" asp-append-version="true"></script>
+    <script src="https://cdn.datatables.net/1.12.0/js/dataTables.semanticui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fomantic-ui/2.8.8/semantic.min.js"></script>
+    <script src="https://unpkg.com/js-alert/dist/jsalert.min.js"></script>
+
+
+    @*my scripts starts here*@
+    <!-- bootsrap js -->
+    @*  <script src="~/lib/jquery/dist/jquery.min.js"></script>*@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
+    <script src="~/js/Style.js"></script>
+    @*<script src="~/js/Charts.js"></script>
+    <script src="~/js/Doughnut.js"></script>*@
+
+    <!-- Alpine Plugins -->
+    <script defer src="https://unpkg.com/%40alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+    <!-- Alpine Core -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Alpine Plugins -->
+    <script defer src="https://unpkg.com/%40alpinejs/persist@3.x.x/dist/cdn.min.js"></script>
+
+    <!-- Alpine Core -->
+    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
+
+    @*  my scripts end here*@
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous" asp-append-version="true"></script>
+
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/project.js" asp-append-version="true"></script>
+    <script src='~/js/modal-partial.js'></script>
+    <script src='~/js/chat-script.js'></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/cdn/js.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js" asp-append-version="true"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
+    <partial name="_NotificationsPartial" />
+    <partial name="_DeleteConfirmationPartial" />
+  @*  <script>
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+    </script>*@
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

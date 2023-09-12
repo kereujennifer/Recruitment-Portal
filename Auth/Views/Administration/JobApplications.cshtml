@@ -1,0 +1,49 @@
+﻿@model IEnumerable<Auth.Models.JobApplications>
+
+@{
+    ViewData["Title"] = "JobApplications";
+}
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            
+            <th>
+                @Html.DisplayNameFor(model => model.ReferenceNumber)
+            </th>
+          
+            <th>
+                @Html.DisplayNameFor(model => model.JobTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.DateAdded)
+            </th>
+           
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.ReferenceNumber)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.JobTitle)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.DateAdded)
+            </td>
+           
+            <td>
+                <a asp-action="Details" asp-route-id="@item.Id">View</a> |
+               
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

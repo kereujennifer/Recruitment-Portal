@@ -1,0 +1,372 @@
+﻿@model ApplyJobViewModel;
+@using Auth.Models.ViewModels;
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Auth.Models.ApplicationUser> signInManager;
+@inject UserManager<Auth.Models.ApplicationUser> user;
+@{
+    ViewData["Title"] = "";
+   
+}
+
+
+<div class="container">
+
+    <hr />
+    <h4>@Model.JobTitle</h4>
+    <h4>@Model.Industry</h4>
+    <h4></h4>
+    <h4>Cover Letter</h4>
+    <p>@Model.CoverLetter</p>
+
+  
+    <!-- Personal Info -->
+    <h4>Personal Information</h4>
+    <div class="col-md-12  mt-2">
+
+        <dl class="row">
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Title)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Title)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.AlternatePhoneNumber)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.AlternatePhoneNumber)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.DateOfBirth)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.DateOfBirth)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.IDDocument)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.IDDocument)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.IDDocumentNumber)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.IDDocumentNumber)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.MaritalStatus)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.MaritalStatus)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Gender)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Gender)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Nationality)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Nationality)
+            </dd>
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.County)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.County)
+            </dd>
+            @if (!string.IsNullOrEmpty(Model.Ethnicity))
+            {
+                <dt class="col-4">
+                    @Html.DisplayNameFor(model => model.Ethnicity)
+                </dt>
+                <dd class="col-8">
+                    @Html.DisplayFor(model => model.Ethnicity)
+                </dd>
+            }
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Languages)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Languages)
+            </dd>
+
+            @if (Model.Disability)
+            {
+                <dt class="col-4">
+                    @Html.DisplayNameFor(model => model.DisabilityCondition)
+                </dt>
+                <dd class="col-8">
+                    @Html.DisplayFor(model => model.DisabilityCondition)
+                </dd>
+            }
+
+            <dt class="col-4">
+                @Html.DisplayNameFor(model => model.Skills)
+            </dt>
+            <dd class="col-8">
+                @Html.DisplayFor(model => model.Skills)
+            </dd>
+        </dl>
+    </div>
+    <hr />
+    <!-- Education -->
+    <h4>Education</h4>
+    <div class="table-responsive">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Institution</th>
+                    <th>Qualification</th>
+                    <th>Specialization</th>
+                    <th>Grade</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var item in Model.EducationalBackground)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Institution)
+                        </td>
+
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Qualification)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Specialization)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Grade)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.StartDate)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.EndDate)
+                        </td>
+                        <!-- Actions for each license can be added here -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <!-- Work Experience -->
+    <h4>Work Experience</h4>
+    <div class="table-responsive">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Employer</th>
+                    <th>JobTitle</th>
+                    <th>From</th>
+                    <th>To</th>
+                    <th>Industry</th>
+                    <th>Work Category</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.WorkExperience)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Employer)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.JobTitle)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.From)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.To)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Industry)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.WorkCategory)
+                        </td>
+                        <!-- Actions for each license can be added here -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <h4>Professional Bodies</h4>
+    <div class="table-responsive">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Qualifications</th>
+                    <th>MemberSince</th>
+                    <th>Ongoing</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.ProfessionalBodies)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Qualifications)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.MemberSince)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Ongoing)
+                        </td>
+                        <!-- Actions for each license can be added here -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <h4>Seminar And Workshops</h4>
+    <div class="table-responsive">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Type</th>
+                    <th>Title</th>
+                    <th>Award</th>
+                    <th>From</th>
+                    <th>To</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.SeminarAndWorkshops)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Type)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Award)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.From)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.To)
+                        </td>
+                        <!-- Actions for each license can be added here -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <hr />
+    <!-- Practicing Licenses -->
+    <h4>Practicing Licenses</h4>
+    <div class="table-responsive">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Issuer</th>
+                    <th>Category</th>
+                    <th>Issued On</th>
+                    <th>Valid From</th>
+                    <th>Valid To</th>
+                    <th>License Number</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.PracticingLicenses)
+                {
+                    <tr>
+                        <td>@Html.DisplayFor(modelItem => item.Issuer)</td>
+                        <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                        <td>@Html.DisplayFor(modelItem => item.IssuedOn)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
+                        <td>@Html.DisplayFor(modelItem => item.ValidTo)</td>
+                        <td>@Html.DisplayFor(modelItem => item.LicenseNumber)</td>
+                        <!-- Actions for each license can be added here -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    </hr>
+
+    <!-- Practicing Licenses -->
+    <!-- Practicing Licenses -->
+    <!-- Practicing Licenses -->
+    <h4>DocumentUploads</h4>
+    <div class="table-responsive">
+        <table class="table border">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>File Size</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.DocumentUploads)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Description)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.FileSize)
+                        </td>
+                        <!-- Actions for each license can be added here -->
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+    <form method="post" action="@Url.Action("ChangeStatus", "JobApplications")">
+        @Html.HiddenFor(model => model.Id) <!-- Include a hidden field to hold the application ID -->
+
+        <button type="submit" name="status" value="Shortlisted" class="btn btn-success">Shortlist</button>
+        <button type="submit" name="status" value="Declined" class="btn btn-danger">Decline</button>
+    </form>
+</div>

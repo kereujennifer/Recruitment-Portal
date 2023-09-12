@@ -1,0 +1,46 @@
+﻿@model Auth.Models.ViewModels.CreateRoleVM;
+
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="row mt-3 ">
+    <div class="col-md-12 d-flex justify-content-between">
+        <h3 class="primary-text"></h3>
+        <a class="primary-text d-flex align-items-center" asp-action="ListRoles">
+            <i class="ri-arrow-left-s-line"></i> <span>Back to Product list</span>
+        </a>
+    </div>
+
+</div>
+<div class="row shadow-lg mt-2">
+    <div class="card ">
+        <div class="card-body ">
+
+            <form method="post" enctype="multipart/form-data">
+               
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                
+                <div class="row">
+                    <div class="col-md-9 mb-3">
+                        <label asp-for="RoleName" class="control-label"></label>
+                        <input asp-for="RoleName" class="form-control" />
+                        <span asp-validation-for="RoleName" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="col-md-9 mb-2 d-flex justify-content-end mt-3">
+                    <a type="button" class="btn btn-outline-primary-2" asp-action="Index">Cancel</a>
+                 
+                    <button type="submit" class="btn btn-primary-2 ms-2">Save</button>
+                </div>
+            </form>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

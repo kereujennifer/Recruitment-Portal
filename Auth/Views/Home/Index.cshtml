@@ -1,0 +1,25 @@
+﻿@using Auth.Models.ViewModels;
+@model Jobs;
+@{
+    ViewData["Title"] = "Home Page";
+    Layout = "~/Views/Shared/_LandingLayout.cshtml";
+
+}
+
+<div class="card col-md-4">
+    <div class="card-header">
+        <h2>Featured Jobs</h2>
+    </div>
+    <div class="card-body">
+        @foreach (var job in ViewBag.FeaturedJobs)
+        {
+            <div class="card mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">@job.Title</h5>
+                    <p class="card-text">Industry: @job.Industry</p>
+                    <a href="@Url.Action("ApplyJob", "Applicant", new { id = job.Id })" class="btn btn-success">Apply</a>
+                </div>
+            </div>
+        }
+    </div>
+</div>

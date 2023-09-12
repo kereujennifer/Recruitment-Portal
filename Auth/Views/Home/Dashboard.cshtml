@@ -1,0 +1,309 @@
+﻿@model DashboardVM;
+@using Auth.Models.ViewModels;
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<Auth.Models.ApplicationUser> signInManager;
+@inject UserManager<Auth.Models.ApplicationUser> user;
+@{
+
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 1;
+}
+
+
+<div class="container-fluid">
+
+    <div class="row">
+
+       
+
+        <div class="col-lg-3  col-md-12 col-sm-12 col-xs-12">
+            <a asp-action="Index" asp-controller="Jobs">
+
+            <div class="card-counter btn success d-flex">
+                <i class="ri-list-ordered"></i>
+                <div class="ms-auto text-end">
+                    <h1 class="count-numbers" id="card1">@Model.Jobs</h1>
+                    <span class="count-name">All Jobs</span>
+                </div>
+            </div>
+            </a>
+
+        </div>
+                        @if (signInManager.IsSignedIn(User) && (User.IsInRole("User"))){
+
+        <div class="col-lg-3  col-md-12 col-sm-12 col-xs-12">
+            <div class="card-counter bg-warning d-flex">
+                <i class="ri-list-ordered"></i>
+                <div class="ms-auto text-end">
+                    <h1 class="count-numbers" id="card1">@Model.MyApplications</h1>
+                    <span class="count-name">My Applications</span>
+                </div>
+            </div>
+        </div>
+                        }
+        @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin")))
+        {
+
+        <div class="col-lg-3  col-md-12 col-sm-12 col-xs-12">
+            <div class="card-counter bg-warning d-flex">
+                <i class="ri-list-ordered"></i>
+                <div class="ms-auto text-end">
+                        <h1 class="count-numbers" id="card1">@Model.Applications</h1>
+                    <span class="count-name">Applications</span>
+                </div>
+            </div>
+        </div>
+            }
+                @if (signInManager.IsSignedIn(User) && (User.IsInRole("User"))){
+
+        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">
+            <div class="card-counter bg-warning d-flex">
+                <i class="ri-list-ordered"></i>
+                <div class="ms-auto text-end">
+                    <h1 class="count-numbers" id="card1">@Model.JobProfile</h1>
+                    <span class="count-name">Job Profile</span>
+                </div>
+            </div>
+        </div>
+                }
+        <div class="col-lg-3  col-md-12 col-sm-12 col-xs-12">
+            <div class="card-counter bg-warning d-flex">
+                <i class="ri-list-ordered"></i>
+                <div class="ms-auto text-end">
+                    <h1 class="count-numbers" id="card1">@Model.Notifications</h1>
+                    <span class="count-name">Notifications</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="card">
+        <div class="card-header">
+            <h2>Featured Jobs</h2>
+        </div>
+        <div class="card-body">
+            <table class="table ">
+                @*<thead>
+                    <tr>
+                        <th>Job Title</th>
+                        <th>Industry</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>*@
+                <tbody>
+                    @foreach (var job in ViewBag.FeaturedJobs)
+                    {
+                        <tr>
+                            <td>@job.Title</td>
+                            <td>@job.Industry</td>
+                            <td>
+                                @if (!ViewBag.AppliedJobIds.Contains(job.Id)) // Check if the job ID exists in the list of appliedJobIds
+                                {
+                                    <a href="@Url.Action("ApplyJob", "Applicant", new { id = job.Id })" class="btn btn-success">Apply</a>
+                                }
+                                else
+                                {
+                                    <button class="disabled-button" disabled>Applied</button>
+                                }
+                                <a href="@Url.Action("Details", "Jobs", new { id = job.Id })" class="btn btn-primary">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+
+    @if (signInManager.IsSignedIn(User) && (User.IsInRole("User"))){
+         <div class="card">
+        <div class="card-header">
+                <h3>Already Applied Jobs</h3>
+            </div>
+        <div class="card-body">
+
+    <table class="table">
+        <tbody>
+            @foreach (var job in ViewBag.AppliedJobs)
+            {
+                <tr>
+                    <td>@job.Title</td>
+                    <td>@job.Industry</td>
+            </tr>
+
+        }
+        </tbody>
+    </table>    
+    </div>
+    </div>
+    }
+
+    <div class="card mt-4">
+        <div class="card-header">
+            <h2>Other Jobs</h2>
+        </div>
+        <div class="card-body">
+            <table class="table table-bordered">
+                <thead>
+                   @* <tr>
+                        <th>Job Title</th>
+                        <th>Industry</th>
+                        <th>Actions</th>
+                    </tr>*@
+                </thead>
+                <tbody>
+                    @foreach (var job in ViewBag.OtherJobs)
+                    {
+                        <tr>
+                            <td>@job.Title</td>
+                            <td>@job.Industry</td>
+                            <td>
+                                <a href="@Url.Action("ApplyJob", "Applicant", new { id = job.Id })" class="btn btn-success">Apply</a>
+
+                                <a href="@Url.Action("Details", "Jobs", new { id = job.Id })" class="btn btn-primary">View</a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <br />
+
+    <div class="row">
+         @if (signInManager.IsSignedIn(User) && (User.IsInRole("Admin")))
+        {
+            <div class="row g-0 p-2 d-flex flex-row card shadow-sm bg-white col-md-9 " id="dashboardUserList">
+                <div class="row d-flex flex-row">
+                    <div class="col-md-9">
+                        <p class="fw-bold card-stitle text-start text-primary">Users List</p>
+                    </div>
+
+                    <div class="col-md-3 justify-content-end">
+                        <div class="">
+                            <a class="fw-bold card-stitle text-end d-inline pull-right mx-2" asp-action="Index" asp-controller="Usermanagement">View All</a>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="mb-3 table-responsive">
+                    <table class="table border table-responsive">
+                        <thead class="thead">
+                            <tr>
+                                <th>#</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                                @*<th>Role</th>*@
+                                <th>ActivationStatus</th>
+                                @*<th>Status</th>*@
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @if (Model != null && Model.Users.Count() > 0)
+                            {
+                                @foreach (var item in Model.Users)
+                                {
+                                    <tr>
+                                        <td>@count</td>
+                                        <td>@item.UserName</td>
+                                        <td>@item.Email</td>
+
+                                        <td>
+                                            @if (item.ActivationStatus)
+                                            {
+                                                <span>Confirmed</span>
+                                            }
+                                            else
+                                            {
+                                                <span>Not Confirmed</span>
+                                            }
+                                        </td>
+                                        @*<td>
+                                            @if (item.Status)
+                                            {
+                                                <span>Active ||</span>
+                                                <span><a asp-action="UpdateUsersStatus" asp-route-id="@item.Id">Deactivate</a></span>
+                                            }
+                                            else
+                                            {
+                                                <span>Inactive ||</span>
+                                                <span><a asp-action="UpdateUsersStatus" asp-route-id="@item.Id">Activate</a></span>
+                                            }
+                                        </td>*@
+                                        @*<td>
+                                            <div class="d-flex flex-row">
+                                                <a class="btn btn-link" asp-action="UpdateUsergroup" asp-route-id="@user.Id">
+                                                    <i class="ri-group-line primary-text" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                       data-bs-custom-class="custom-tooltip" data-bs-title="Change Usergroup"></i>
+                                                </a>
+                                                <a class="btn btn-link" asp-action="AdminResetPassword" asp-route-id="@user.Id">
+                                                    <i class="ri-key-fill primary-text" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                       data-bs-custom-class="custom-tooltip" data-bs-title="Reset Password"></i>
+                                                </a>
+                                                <form method="post" id="userDel" asp-action="DeleteUser" asp-route-id="@user.Id">
+                                                    <button type="button" class="btn btn-link" onclick="return deleteUserConfirm(this)">
+                                                        <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                           data-bs-custom-class="custom-tooltip" data-bs-title="delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </td>*@
+                                    </tr>
+                                    count++;
+                                }
+                            }
+                            else
+                            {
+                            }
+                        </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+        }
+    </div>
+
+    <div class="row col-lg-4  col-md-12  mb-5">
+        <div class="card">
+            <div class="card-body">
+                <p class="fs-6 fw-bold">Recent activity</p>
+                <ul class="timeline">
+
+                    <li>
+                        <a target="_blank" href="#" class="timeline-title">My Applications</a>
+                        <a href="#" class="timeline-date ms-4"></a>
+                        <p class="timeline-content"></p>
+                    </li>
+                    <li>
+                        <h4>@Model.MyApplications</h4>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+function applyForJob(jobId) {
+    // Send an AJAX request to the server to apply for the job
+    $.ajax({
+        url: '/JobApplications/ApplyForJob',
+        type: 'POST',
+        data: { jobId: jobId },
+        success: function (result) {
+            // Handle the success response, e.g., refresh the dashboard
+            location.reload();
+        },
+        error: function (error) {
+            // Handle errors, e.g., display an error message
+            console.error('Error applying for the job:', error);
+        }
+    });
+}
+
+</script>
+
+
+

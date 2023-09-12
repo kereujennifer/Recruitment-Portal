@@ -1,0 +1,125 @@
+﻿@using Auth.Models.ViewModels;
+@model InterviewAndEvaluationViewModel;
+@{
+    ViewData["Title"] = "InterviewsAndEvaluations";
+}
+<div class="card shadow feedback">
+    <nav>
+
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-InterViews-tab" data-bs-toggle="tab" data-bs-target="#InterViews" type="button" role="tab" aria-controls="nav-InterViews" aria-selected="true">InterViews</button>
+
+            <button class="nav-link" id="nav-Evaluations-tab" data-bs-toggle="tab" data-bs-target="#Evaluations" type="button" role="tab" aria-controls="nav-Evaluations" aria-selected="false">Evaluations</button>
+            <button class="nav-link" id="nav-Qualified-tab" data-bs-toggle="tab" data-bs-target="#Qualified" type="button" role="tab" aria-controls="nav-Qualified" aria-selected="false">Qualified</button>
+            <button class="nav-link" id="nav-NotQualified-tab" data-bs-toggle="tab" data-bs-target="#NotQualified" type="button" role="tab" aria-controls="nav-NotQualified" aria-selected="false">NotQualified</button>
+        </div>
+
+    </nav>
+    <div class="card">
+        <div class="card-body ">
+            <div class="tab-content ">
+                <div id="InterViews" class="container tab-pane show active" aria-labelledby="nav-InterViews-tab"></div>
+                <div id="Evaluations" class="container tab-pane show" aria-labelledby="nav-Evaluations-tab">
+
+<p>
+    <a asp-action="AddEvaluation">Add</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Description)
+            </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Status)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DateAdded)
+                                </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model.Evaluations) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Status)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateAdded)
+                                    </td>
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <a asp-action="AddEvaluation" asp-route-id="@item.Id">
+                                                    <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                       data-bs-custom-class="custom-tooltip"
+                                                       data-bs-title="edit"></i>
+                                                </a>
+                                                <form id="work-@item.Id" asp-action="DeleteEvaluation" asp-route-id="@item.Id">
+                                                    <button type="button" class="btn btn-link" id="work-@item.Id" onclick="return deleteevaluationConfirm(this)">
+                                                        <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                           data-bs-custom-class="custom-tooltip"
+                                                           data-bs-title="delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </td>
+        </tr>
+}
+    </tbody>
+</table>
+            </div>
+
+                <div id="Qualified" class="container tab-pane show" aria-labelledby="nav-Qualified-tab"></div>
+                <div id="NotQualified" class="container tab-pane show" aria-labelledby="nav-NotQualified-tab"></div>
+
+
+            </div>
+            </div>
+            </div>
+            <script>
+        const deleteevaluationConfirm = e => {
+            var zId = e.id;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-danger mx-2',
+                    cancelButton: 'btn btn-outline-primary-2'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure ?',
+                html: "Do you really want to delete these record? <br/> This process cannot be undone",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success',
+                        '2000'
+                    )
+                    setTimeout(() => $("#" + zId).submit(), 1000)
+
+                }
+            })
+        }
+            </script>

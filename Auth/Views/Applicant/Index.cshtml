@@ -1,0 +1,1254 @@
+﻿@model JobProfileViewModel;
+@using Auth.Models.ViewModels;
+@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<Auth.Models.ApplicationUser> signInManager;
+@inject UserManager<Auth.Models.ApplicationUser> user;
+@{
+    ViewData["Title"] = "Job Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var count = 1;
+}
+<link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css" asp-append-version="true" />
+<div class="card shadow feedback">
+    <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist" aria-orientation="vertical">
+
+            <button class="nav-link active" id="nav-PersonalInfo-tab" data-bs-toggle="tab" data-bs-target="#nav-PersonalInfo" type="button" role="tab" aria-controls="nav-PersonalInfo" aria-selected="true">Personal Info</button>
+            <button class="nav-link" id="nav-Education-tab" data-bs-toggle="tab" data-bs-target="#nav-Education" type="button" role="tab" aria-controls="nav-Education" aria-selected="false">Education</button>
+            <button class="nav-link" id="nav-WorkExperience-tab" data-bs-toggle="tab" data-bs-target="#nav-WorkExperience" type="button" role="tab" aria-controls="nav-WorkExperience" aria-selected="false">Work Experience</button>
+            <button class="nav-link" id="nav-professionalBodies-tab" data-bs-toggle="tab" data-bs-target="#nav-professionalBodies" type="button" role="tab" aria-controls="nav-professionalBodies" aria-selected="false">Professional Bodies</button>
+            <button class="nav-link" id="nav-SeminarsAndWorkshops-tab" data-bs-toggle="tab" data-bs-target="#nav-SeminarsAndWorkshops" type="button" role="tab" aria-controls="nav-SeminarsAndWorkshops" aria-selected="false">Seminars & Workshops</button>
+            <button class="nav-link" id="nav-PracticingLicenses-tab" data-bs-toggle="tab" data-bs-target="#nav-PracticingLicenses" type="button" role="tab" aria-controls="nav-PracticingLicenses" aria-selected="false">Licences</button>
+            <button class="nav-link" id="nav-Uploads-tab" data-bs-toggle="tab" data-bs-target="#nav-Uploads" type="button" role="tab" aria-controls="nav-Uploads" aria-selected="false">Uploads</button>
+            <button class="nav-link" id="nav-Summary-tab" data-bs-toggle="tab" data-bs-target="#nav-Summary" type="button" role="tab" aria-controls="nav-Summary" aria-selected="false">Summary</button>
+               
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-PersonalInfo" role="tabpanel" aria-labelledby="nav-PersonalInfo-tab">
+            <div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+
+            <section class="header mt-2">
+
+                <div class="row end">
+                    <div class="col-lg-2 col-md-6">
+                      
+                    </div>
+                   
+                        <div class="col-lg-2 col-md-6">
+                        <a class="btn primary mb-4" asp-action="EditPersonalInformation"><i class="ri-edit-2-line">Edit</i></a>
+                        </div>
+                    </div>
+            </section>
+            <div class="col-md-12 table mt-2">
+
+
+                    <dl class="row">
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Title)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Title)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.PhoneNumber)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.AlternatePhoneNumber)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.AlternatePhoneNumber)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.DateOfBirth)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.DateOfBirth)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.IDDocument)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.IDDocument)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.IDDocumentNumber)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.IDDocumentNumber)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.MaritalStatus)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.MaritalStatus)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Gender)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Gender)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Address)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Nationality)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Nationality)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.County)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.County)
+                        </dd>
+                    @if (!string.IsNullOrEmpty(Model.Ethnicity))
+                    {
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Ethnicity)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Ethnicity)
+                        </dd>
+                    }
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Languages)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Languages)
+                        </dd>
+                      
+                    @if (Model.Disability)
+                    {
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.DisabilityCondition)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.DisabilityCondition)
+                        </dd>
+                    }
+                        
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Skills)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Skills)
+                        </dd>
+                    </dl>
+            </div>
+        </div>
+       
+        </div>
+
+
+        <div class="tab-pane fade" id="nav-Education" role="tabpanel" aria-labelledby="nav-Education-tab">
+          <section class="header mt-2">
+            <div class="row end">
+                <div class="col-lg-2 col-md-6">
+                    <a class="btn primary mb-2" asp-action="AddEducationalBackground"><i class="ri-add-line"></i>Add</a>
+                </div>
+            </div>
+          </section>
+        <div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+            <!--Contentgrid-->
+            <div class="container mb-3 p-4 table-responsive">
+                <table id="example" class="table border table-responsive">
+                    <thead>
+                        <tr>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Institution)
+                            </th>
+
+                            <th>
+                                @Html.DisplayNameFor(model => model.Qualification)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Specialization)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.Grade)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.StartDate)
+                            </th>
+                            <th>
+                                @Html.DisplayNameFor(model => model.EndDate)
+                            </th>
+                            @*  <th>
+                            @Html.DisplayNameFor(model => model.userID)
+                            </th>*@
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model.EducationalBackground)
+                        {
+                            <tr>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Institution)
+                                </td>
+
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Qualification)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Specialization)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.Grade)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.StartDate)
+                                </td>
+                                <td>
+                                    @Html.DisplayFor(modelItem => item.EndDate)
+                                </td>
+                                @* <td>
+                            @Html.DisplayFor(modelItem => item.userID)
+                            </td>*@
+                                <td>
+                                    <div class="d-flex justify-content-between">
+                                        <div class="d-flex align-items-center">
+                                            <a asp-action="AddEducationalBackGround" asp-route-id="@item.Id">
+                                                <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                   data-bs-custom-class="custom-tooltip"
+                                                   data-bs-title="edit"></i>
+                                            </a>
+                                            <form id="education-@item.Id" asp-action="DeleteEducationalBackGround" asp-route-id="@item.Id">
+                                                <button type="button" class="btn btn-link" id="education-@item.Id" onclick="return deleteeducationConfirm(this)">
+                                                    <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                       data-bs-custom-class="custom-tooltip"
+                                                       data-bs-title="delete"></i>
+                                                </button>
+                                            </form>
+                                        </div>
+                                    </div>
+
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+      
+    </div>
+
+
+
+
+        <div class="tab-pane fade" id="nav-WorkExperience" role="tabpanel" aria-labelledby="nav-WorkExperience-tab">
+            <section class="header mt-2">
+                <div class="row end">
+                    <div class="col-lg-2 col-md-6">
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <a class="btn primary mb-2" asp-action="AddWorkExperience"><i class="ri-add-line"></i>Add</a>
+                    </div>
+                </div>
+            </section>
+            <div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+                <!--Contentgrid-->
+                <div class="container mb-3 p-4 table-responsive">
+                    <table id="example" class="table border table-responsive">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Employer)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.JobTitle)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.From)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.To)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Industry)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.WorkCategory)
+                                </th>
+                                @*<th>
+                                    @Html.DisplayNameFor(model => model.JobResponsibilities)
+                                </th>*@
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+        @foreach (var item in Model.WorkExperience)
+        {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Employer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.From)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.To)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Industry)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WorkCategory)
+                                    </td>
+                                    @*<td>
+                                        @Html.DisplayFor(modelItem => item.JobResponsibilities)
+                                    </td>*@
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <a asp-action="AddWorkExperience" asp-route-id="@item.Id">
+                                                    <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                       data-bs-custom-class="custom-tooltip"
+                                                       data-bs-title="edit"></i>
+                                                </a>
+                                                <form id="work-@item.Id" asp-action="DeleteWorkExperience" asp-route-id="@item.Id">
+                                                    <button type="button" class="btn btn-link" id="work-@item.Id" onclick="return deleteworkConfirm(this)">
+                                                        <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                           data-bs-custom-class="custom-tooltip"
+                                                           data-bs-title="delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+               </div>
+            </div>
+         
+        </div>
+
+       <div class="tab-pane fade" id="nav-professionalBodies" role="tabpanel" aria-labelledby="nav-professionalBodies-tab">
+                    <section class="header mt-2">
+                        <div class="row end">
+                            <div class="col-lg-2 col-md-6">
+                                <div class="form-group">
+                                    <ion-icon name="search-outline"></ion-icon>
+                                    <input class="form-control" type="text" placeholder="search" />
+                                </div>
+                            </div>
+                            <div class="col-lg-2 col-md-6">
+                                <a class="btn primary mb-4" asp-action="AddProfessionalBodies"><i class="ri-add-line"></i>Add</a>
+                            </div>
+                        </div>
+                    </section>
+            <div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+                <!--Contentgrid-->
+                <div class="container mb-3 p-4 table-responsive">
+                    <table id="example" class="table border table-responsive">
+                        <thead>
+                            <tr>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Name)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Qualifications)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.MemberSince)
+                                        </th>
+                                        <th>
+                                            @Html.DisplayNameFor(model => model.Ongoing)
+                                        </th>
+                                        @*<th>
+                                        @Html.DisplayNameFor(model => model.userID)
+                                        </th>*@
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    @foreach (var item in Model.ProfessionalBodies)
+                                    {
+                                        <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Name)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Qualifications)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.MemberSince)
+                                            </td>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.Ongoing)
+                                            </td>
+                                            @* <td>
+                                        @Html.DisplayFor(modelItem => item.userID)
+                                        </td>*@
+                                            <td>
+                                                <div class="d-flex justify-content-between">
+                                                    <div class="d-flex align-items-center">
+                                                        <a asp-action="AddProfessionalBodies" asp-route-id="@item.Id">
+                                                            <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                               data-bs-custom-class="custom-tooltip"
+                                                               data-bs-title="edit"></i>
+                                                        </a>
+                                                        <form id="education-@item.Id" asp-action="DeleteProfessionalBodies" asp-route-id="@item.Id">
+                                                            <button type="button" class="btn btn-link" id="education-@item.Id" onclick="return deleteprofbodyConfirm(this)">
+                                                                <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                                   data-bs-custom-class="custom-tooltip"
+                                                                   data-bs-title="delete"></i>
+                                                            </button>
+                                                        </form>
+                                                    </div>
+                                                </div>
+
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+
+                        </div>
+
+                    </div>
+           
+                </div>
+        <div class="tab-pane fade" id="nav-SeminarsAndWorkshops" role="tabpanel" aria-labelledby="nav-SeminarsAndWorkshops-tab">
+            <section class="header mt-2">
+                <div class="row end">
+                    <div class="col-lg-2 col-md-6">
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <a class="btn primary mb-2" asp-action="AddSeminarsAndWorkShops"><i class="ri-add-line"></i>Add</a>
+                    </div>
+                </div>
+            </section>
+            <div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+                <!--Contentgrid-->
+                <div class="container mb-3 p-4 table-responsive">
+                    <table id="example" class="table border table-responsive">
+                        <thead>
+                            <tr>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Type)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Title)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.Award)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.From)
+                                    </th>
+                                    <th>
+                                        @Html.DisplayNameFor(model => model.To)
+                                    </th>
+                                    @*  <th>
+                                    @Html.DisplayNameFor(model => model.userID)
+                                    </th>*@
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model.SeminarAndWorkshops)
+                                {
+                                    <tr>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Type)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Title)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Award)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.From)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.To)
+                                        </td>
+                                        @*  <td>
+                                    @Html.DisplayFor(modelItem => item.userID)
+                                    </td>*@
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                                <a asp-action="AddSeminarsAndWorkShops" asp-route-id="@item.Id">
+                                                    <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                       data-bs-custom-class="custom-tooltip"
+                                                       data-bs-title="edit"></i>
+                                                </a>
+                                                <form id="work-@item.Id" asp-action="DeleteSeminarsAndWorkShops" asp-route-id="@item.Id">
+                                                    <button type="button" class="btn btn-link" id="work-@item.Id" onclick="return deleteseminarConfirm(this)">
+                                                        <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                           data-bs-custom-class="custom-tooltip"
+                                                           data-bs-title="delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-PracticingLicenses" role="tabpanel" aria-labelledby="nav-PracticingLicenses-tab">
+            <section class="header mt-2">
+                <div class="row end">
+                    <div class="col-lg-2 col-md-6">
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <a class="btn primary mb-2" asp-action="AddPracticingLicenses"><i class="ri-add-line"></i>Add</a>
+                    </div>
+                </div>
+            </section>
+            <div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+                <!--Contentgrid-->
+                <div class="container mb-3 p-4 table-responsive">
+                    <table id="example" class="table border table-responsive">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Issuer)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Category)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.IssuedOn)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ValidFrom)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ValidTo)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.LicenseNumber)
+                                </th>
+                                @* <th>
+                                @Html.DisplayNameFor(model => model.userID)
+                                </th>*@
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PracticingLicenses)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Issuer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Category)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.IssuedOn)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ValidFrom)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ValidTo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.LicenseNumber)
+                                    </td>
+                                    @* <td>
+                                @Html.DisplayFor(modelItem => item.userID)
+                                </td>*@
+                                        <td>
+                                            <div class="d-flex justify-content-between">
+                                                <div class="d-flex align-items-center">
+                                                    <a asp-action="AddPracticingLicenses" asp-route-id="@item.Id">
+                                                        <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                           data-bs-custom-class="custom-tooltip"
+                                                           data-bs-title="edit"></i>
+                                                    </a>
+                                                    <form id="work-@item.Id" asp-action="DeletePracticingLicenses" asp-route-id="@item.Id">
+                                                        <button type="button" class="btn btn-link" id="work-@item.Id" onclick="return deletelicensesConfirm(this)">
+                                                            <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                               data-bs-custom-class="custom-tooltip"
+                                                               data-bs-title="delete"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                            </div>
+
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-Uploads" role="tabpanel" aria-labelledby="nav-Uploads-tab">
+            <section class="header mt-2">
+                <div class="row end">
+                    <div class="col-lg-2 col-md-6">
+                    </div>
+                    <div class="col-lg-2 col-md-6">
+                        <a class="btn primary mb-2" asp-action="AddDocumentUpload"><i class="ri-add-line"></i>Add</a>
+                    </div>
+                </div>
+            </section>
+            <div class="row mt-1 mb-2 d-flex flex-row p-3 bg-white shadow">
+                <!--Contentgrid-->
+                <div class="container mb-3 p-4 table-responsive">
+                    <table id="example" class="table border table-responsive">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Title)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Description)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.FileSize)
+                                </th>
+                                
+                                @* <th>
+                                @Html.DisplayNameFor(model => model.userID)
+                                </th>*@
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DocumentUploads)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FileSize)
+                                    </td>
+                                    
+                                    @* <td>
+                                @Html.DisplayFor(modelItem => item.userID)
+                                </td>*@
+                                    <td>
+                                        <div class="d-flex justify-content-between">
+                                            <div class="d-flex align-items-center">
+                                               @* <a asp-action="Add" asp-route-id="@item.Id">
+                                                    <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                       data-bs-custom-class="custom-tooltip"
+                                                       data-bs-title="edit"></i>
+                                                </a>*@
+                                                <form id="work-@item.Id" asp-action="DeleteDocumentUpload" asp-route-id="@item.Id">
+                                                    <button type="button" class="btn btn-link" id="work-@item.Id" onclick="return deleteuploadsConfirm(this)">
+                                                        <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                                           data-bs-custom-class="custom-tooltip"
+                                                           data-bs-title="delete"></i>
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @*Summary--*@
+        <div class="tab-pane fade" id="nav-Summary" role="tabpanel" aria-labelledby="nav-Summary-tab">
+            <div class="container">
+                
+                <hr />
+                <!-- Personal Info -->
+                <h4>Personal Information</h4>
+                <div class="col-md-12  mt-2">
+
+
+                    <dl class="row">
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Name)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Name)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Title)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Title)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.PhoneNumber)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.PhoneNumber)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.AlternatePhoneNumber)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.AlternatePhoneNumber)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.DateOfBirth)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.DateOfBirth)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.IDDocument)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.IDDocument)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.IDDocumentNumber)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.IDDocumentNumber)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Email)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Email)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.MaritalStatus)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.MaritalStatus)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Gender)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Gender)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Address)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Address)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Nationality)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Nationality)
+                        </dd>
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.County)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.County)
+                        </dd>
+                        @if (!string.IsNullOrEmpty(Model.Ethnicity))
+                        {
+                            <dt class="col-4">
+                                @Html.DisplayNameFor(model => model.Ethnicity)
+                            </dt>
+                            <dd class="col-8">
+                                @Html.DisplayFor(model => model.Ethnicity)
+                            </dd>
+                        }
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Languages)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Languages)
+                        </dd>
+
+                        @if (Model.Disability)
+                        {
+                            <dt class="col-4">
+                                @Html.DisplayNameFor(model => model.DisabilityCondition)
+                            </dt>
+                            <dd class="col-8">
+                                @Html.DisplayFor(model => model.DisabilityCondition)
+                            </dd>
+                        }
+
+                        <dt class="col-4">
+                            @Html.DisplayNameFor(model => model.Skills)
+                        </dt>
+                        <dd class="col-8">
+                            @Html.DisplayFor(model => model.Skills)
+                        </dd>
+                    </dl>
+                </div>
+<hr />
+                <!-- Education -->
+                <h4>Education</h4>
+                <div class="table-responsive">
+                    <table class="table border">
+                        <thead>
+                            <tr>
+                                <th>Institution</th>
+                                <th>Qualification</th>
+                                <th>Specialization</th>
+                                <th>Grade</th>
+                                <th>Start Date</th>
+                                <th>End Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                           
+                                    @foreach (var item in Model.EducationalBackground)
+                                    {
+                                    <tr>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Institution)
+                                        </td>
+
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Qualification)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Specialization)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.Grade)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.StartDate)
+                                        </td>
+                                        <td>
+                                                @Html.DisplayFor(modelItem => item.EndDate)
+                                        </td>
+                                    <!-- Actions for each license can be added here -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                <!-- Work Experience -->
+                <h4>Work Experience</h4>
+                <div class="table-responsive">
+                    <table class="table border">
+                        <thead>
+                            <tr>
+                                <th>Employer</th>
+                                <th>JobTitle</th>
+                                <th>From</th>
+                                <th>To</th>
+                                 <th>Industry</th>
+                                <th>Work Category</th>
+
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.WorkExperience)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Employer)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.From)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.To)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Industry)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.WorkCategory)
+                                    </td>
+                                    <!-- Actions for each license can be added here -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                 <h4>Professional Bodies</h4>
+                <div class="table-responsive">
+                    <table class="table border">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Qualifications</th>
+                                <th>MemberSince</th>
+                                <th>Ongoing</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ProfessionalBodies)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Qualifications)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.MemberSince)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Ongoing)
+                                    </td>
+                                    <!-- Actions for each license can be added here -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                <h4>Seminar And Workshops</h4>
+                <div class="table-responsive">
+                    <table class="table border">
+                        <thead>
+                            <tr>
+                                <th>Type</th>
+                                <th>Title</th>
+                                <th>Award</th>
+                                <th>From</th>
+                                <th>To</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.SeminarAndWorkshops)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Type)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Award)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.From)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.To)
+                                    </td>
+                                    <!-- Actions for each license can be added here -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                <hr />
+                <!-- Practicing Licenses -->
+                <h4>Practicing Licenses</h4>
+                <div class="table-responsive">
+                    <table class="table border">
+                        <thead>
+                            <tr>
+                                <th>Issuer</th>
+                                <th>Category</th>
+                                <th>Issued On</th>
+                                <th>Valid From</th>
+                                <th>Valid To</th>
+                                <th>License Number</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PracticingLicenses)
+                            {
+                                <tr>
+                                    <td>@Html.DisplayFor(modelItem => item.Issuer)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.IssuedOn)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ValidFrom)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.ValidTo)</td>
+                                    <td>@Html.DisplayFor(modelItem => item.LicenseNumber)</td>
+                                    <!-- Actions for each license can be added here -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                </hr>
+
+                  <!-- Practicing Licenses -->
+               
+                <!-- Practicing Licenses -->
+                <!-- Practicing Licenses -->
+                <h4>DocumentUploads</h4>
+                <div class="table-responsive">
+                    <table class="table border">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>File Size</th>
+                               
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DocumentUploads)
+                            {
+                                <tr>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Title)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.FileSize)
+                                    </td>
+                                    <!-- Actions for each license can be added here -->
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+<partial name="_UpsertModalPartial" />
+<script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js" asp-append-version="true"></script>
+
+
+    <script>
+
+        const deleteeducationConfirm = e => {
+            var pId = e.id;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-danger mx-2',
+                    cancelButton: 'btn btn-outline-primary-2'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure ?',
+                html: "Do you really want to delete these record? <br/> This process cannot be undone",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success',
+                        '2000'
+                    )
+                    setTimeout(() => $("#" + pId).submit(), 1000)
+
+                }
+            })
+        }
+        const deleteworkConfirm = e => {
+            var uId = e.id;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-danger mx-2',
+                    cancelButton: 'btn btn-outline-primary-2'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure ?',
+                html: "Do you really want to delete these record? <br/> This process cannot be undone",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success',
+                        '2000'
+                    )
+                    setTimeout(() => $("#" + uId).submit(), 1000)
+
+                }
+            })
+        }
+
+        const deleteprofbodyConfirm = e => {
+            var zId = e.id;
+
+            const swalWithBootstrapButtons = Swal.mixin({
+                customClass: {
+                    confirmButton: 'btn btn-danger mx-2',
+                    cancelButton: 'btn btn-outline-primary-2'
+                },
+                buttonsStyling: false
+            })
+            swalWithBootstrapButtons.fire({
+                title: 'Are you sure ?',
+                html: "Do you really want to delete these record? <br/> This process cannot be undone",
+                icon: 'error',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Delete',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    swalWithBootstrapButtons.fire(
+                        'Deleted!',
+                        'Your file has been deleted.',
+                        'success',
+                        '2000'
+                    )
+                    setTimeout(() => $("#" + zId).submit(), 1000)
+
+                }
+            })
+        }
+    const deleteseminarConfirm = e => {
+        var zId = e.id;
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-danger mx-2',
+                cancelButton: 'btn btn-outline-primary-2'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure ?',
+            html: "Do you really want to delete these record? <br/> This process cannot be undone",
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success',
+                    '2000'
+                )
+                setTimeout(() => $("#" + zId).submit(), 1000)
+
+            }
+        })
+    }
+    const deletelicensesConfirm = e => {
+        var zId = e.id;
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-danger mx-2',
+                cancelButton: 'btn btn-outline-primary-2'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure ?',
+            html: "Do you really want to delete these record? <br/> This process cannot be undone",
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success',
+                    '2000'
+                )
+                setTimeout(() => $("#" + zId).submit(), 1000)
+
+            }
+        })
+    }
+    const deleteuploadsConfirm = e => {
+        var zId = e.id;
+
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-danger mx-2',
+                cancelButton: 'btn btn-outline-primary-2'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are you sure ?',
+            html: "Do you really want to delete these record? <br/> This process cannot be undone",
+            icon: 'error',
+            showCancelButton: true,
+            confirmButtonColor: '#d33',
+            cancelButtonColor: '#3085d6',
+            confirmButtonText: 'Delete',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success',
+                    '2000'
+                )
+                setTimeout(() => $("#" + zId).submit(), 1000)
+
+            }
+        })
+    }
+    
+        $(document).ready(function () {
+            $('#example').DataTable();
+        });
+
+ 
+    </script>

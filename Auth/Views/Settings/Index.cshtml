@@ -1,0 +1,125 @@
+﻿@model Auth.Models.ViewModels.SettingVM;
+@{
+    ViewData["Title"] = "Settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="card shadow feedback">
+    <nav>
+        
+            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                <button class="nav-link active" id="nav-team-tab" data-bs-toggle="tab" data-bs-target="#GeneralSettings" type="button" role="tab" aria-controls="nav-team" aria-selected="true">General Settings</button>
+                
+                <button class="nav-link" id="nav-application-tab" data-bs-toggle="tab" data-bs-target="#SMTPSettings" type="button" role="tab" aria-controls="nav-application" aria-selected="false">SMTP Settings</button>
+                
+            </div>
+        
+    </nav>
+    <div class="card">
+        <div class="card-body ">
+            <div class="tab-content ">
+                <div id="GeneralSettings" class="container tab-pane show active" aria-labelledby="nav-team-tab">
+                    <form class="row p-6" method="post" asp-action="GeneralSettings" enctype="multipart/form-data">
+                        <input hidden asp-for="Id" />
+                  
+                        <div class="col-md-12">
+                            <div class=" mb-5">
+                                <label>Company Logo </label><br>
+                                <input asp-for="CompanyLogo" type="file" accept=".png,.jpg,.jpeg" class="form-control border-top-0 border-left-0 border-right-0 onchange="readURL(this);">
+                                @if (Model.FilePath != "" && Model.FilePath != null)
+                                {
+                                    <img class="set-image" src="~/uploads/@Model.FilePath" alt="companyLogo" />
+                                }
+
+                            </div>
+                            <span class="text-danger"></span>
+                        </div>
+                 
+                        <div class="col-md-12 row">
+                            <div class="col-md-12">
+                                <div class=" mb-5">
+                                    <label>Client Name</label><br>
+                                    <input type="text" asp-for="ClientName" class="form-control border-top-0 border-left-0 border-right-0">
+                                </div>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-md-12">
+                                <div class=" mb-5">
+                                    <label>Contact Us Email</label><br>
+                                    <input type="email" asp-for="ContactUsEmail" class="form-control border-top-0 border-left-0 border-right-0">
+                                </div>
+                                <span class="text-danger"></span>
+                            </div>
+                            <div class="col-md-12">
+                                <div class=" mb-5">
+                                    <label>Primary Color </label><br>
+                                    <input type="color" asp-for="PrimaryColor" class="form-control border-top-0 border-left-0 border-right-0">
+                                </div>
+                            </div>
+                            <div class="col-md-12">
+                                <div class=" mb-5">
+                                    <label>Secondary Color </label><br>
+                                    <input type="color" asp-for="SecondaryColor" class="form-control border-top-0 border-left-0 border-right-0">
+                                </div>
+                                <span class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-2 d-flex justify-content mt-3">
+                            <button type="submit" class="btn btn-primary-2 ms-2">Submit</button>
+
+                        </div>
+                    </form>
+                </div>
+                <div id="SMTPSettings" class="container tab-pane fade" aria-labelledby="nav-smtp-tab">
+                    <form method="post" asp-action="SMTPSettings">
+                        <input hidden asp-for="Id" />
+                        <div class="row p-6">
+
+                            <div class="col-md-6">
+                                <div class="md-form mb-5">
+                                    <label>E-mail Settings </label><br>
+                                    <input type="text" asp-for="EmailSettings " class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form mb-5">
+                                    <label>SMTP Port </label><br>
+                                    <input type="text" asp-for="SMTPPort" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form mb-5">
+                                    <label>SMTP UserName</label><br>
+                                    <input type="text" asp-for="SMTPUserName" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form mb-5">
+                                    <label>SMTP Password </label><br>
+                                    <input type="password" asp-for="SMTPPassword" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="md-form mb-5">
+                                    <label>Sender From Email </label><br>
+                                    <input type="text" asp-for="SenderFromEmail" class="form-control">
+                                </div>
+                            </div>
+                           
+                            <br>
+                               <br />
+
+                            <div class="col-md-12 mb-2 d-flex justify-content mt-3">
+
+                                <button type="submit" class="btn btn-primary-2 ms-2">Submit</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

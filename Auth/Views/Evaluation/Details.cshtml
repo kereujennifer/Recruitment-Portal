@@ -1,0 +1,27 @@
+﻿@model Evaluation
+
+@{
+    ViewData["Title"] = "Evaluation Details";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<h3>Title: @Model.Title</h3>
+<p>Description: @Model.Description</p>
+
+<h3>Questions:</h3>
+@if (Model.Questions.Any())
+{
+    <ul>
+        @foreach (var question in Model.Questions)
+        {
+            <li>@question.Question - Max Points: @question.MaxPoints</li>
+        }
+    </ul>
+}
+else
+{
+    <p>No questions available for this evaluation.</p>
+}
+
+<a href="@Url.Action("Index")" class="btn btn-primary">Back to List</a>

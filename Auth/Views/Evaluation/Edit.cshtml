@@ -1,0 +1,96 @@
+﻿@model Evaluation
+
+@{
+    ViewData["Title"] = "Edit Evaluation";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<form method="post">
+    <div class="form-group">
+        <label for="title">Evaluation Title:</label>
+        <input type="text" id="title" name="Title" class="form-control" value="@Model.Title" required />
+    </div>
+
+    <div class="form-group">
+        <label for="description">Description:</label>
+        <textarea id="description" name="Description" class="form-control" required>@Model.Description</textarea>
+    </div>
+
+    <!-- ... Your existing edit view content ... -->
+
+    <h3>Questions:</h3>
+    <div id="questionsContainer">
+        @for (var i = 0; i < Model.Questions.Count; i++)
+        {
+            var question = Model.Questions.ElementAt(i);
+
+            <div class="form-group">
+                <label for="question_@i">Question:</label>
+                <input type="text" id="question_@i" name="Questions[@i].Question" class="form-control" value="@question.Question" required />
+
+                <label for="maxPoints_@i">Max Points:</label>
+                <input type="number" id="maxPoints_@i" name="Questions[@i].MaxPoints" min="0" class="form-control" value="@question.MaxPoints" required />
+            </div>
+        }
+    </div>
+
+    <button type="button" class="btn btn-primary" id="addQuestion">Add Question</button>
+    <div id="questionsContainer">
+        <!-- JavaScript will populate this container with added questions -->
+    </div>
+
+    <!-- ... Previous form content ... -->
+    <!-- Table to display existing questions -->
+    <h3>Existing Questions:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Max Points</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var question in Model.Questions)
+            {
+                <tr>
+                    <td>@question.Question</td>
+                    <td>@question.MaxPoints</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <!-- ... Your existing edit view content ... -->
+
+    <button type="submit" class="btn btn-success">Save</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+    
+    </form>
+    <!-- ... Your existing edit view content ... -->
+    @section Scripts {
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const addQuestionButton = document.getElementById("addQuestion");
+            const questionsContainer = document.getElementById("questionsContainer");
+
+            let questionCounter = @Model.Questions.Count;
+
+            addQuestionButton.addEventListener("click", function () {
+                const questionHtml = `
+                            <div class="form-group">
+                                <label for="question_${questionCounter}">Question:</label>
+                                <input type="text" id="question_${questionCounter}" name="Questions[${questionCounter}].Question" class="form-control" required />
+
+                                <label for="maxPoints_${questionCounter}">Max Points:</label>
+                                <input type="number" id="maxPoints_${questionCounter}" name="Questions[${questionCounter}].MaxPoints" min="0" class="form-control" required />
+                            </div>
+                        `;
+
+                questionsContainer.insertAdjacentHTML("beforeend", questionHtml);
+                questionCounter++;
+            });
+        });
+    </script>
+    }
+

@@ -1,0 +1,31 @@
+﻿@model List<Evaluation> 
+
+@{
+    ViewData["Title"] = "Evaluations List";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <!-- Add more columns if needed -->
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var evaluation in Model)
+        {
+            <tr>
+                <td>@evaluation.Title</td>
+                <td>@evaluation.Description</td>
+                <td>
+                    <a href="@Url.Action("Edit", new { id = evaluation.Id })" class="btn btn-primary">Edit</a>
+
+                    <a href="@Url.Action("Details", new { id = evaluation.Id })" class="btn btn-info">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

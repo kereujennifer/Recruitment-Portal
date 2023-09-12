@@ -1,0 +1,68 @@
+﻿@model IEnumerable<Auth.Models.SeminarAndWorkshops>
+
+@{
+    ViewData["Title"] = "Seminar And Workshops";
+}
+
+
+<div class="row justify-content-end">
+
+    <div class="col-lg-2 col-md-6">
+        <a class="btn primary mb-2" asp-action="Create"><i class="ri-add-line"></i>Add</a>
+    </div>
+
+</div>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Award)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.From)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.To)
+            </th>
+          @*  <th>
+                @Html.DisplayNameFor(model => model.userID)
+            </th>*@
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Award)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.From)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.To)
+            </td>
+          @*  <td>
+                @Html.DisplayFor(modelItem => item.userID)
+            </td>*@
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> 
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> 
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

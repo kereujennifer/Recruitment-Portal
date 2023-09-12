@@ -1,0 +1,200 @@
+﻿@using Auth.Models.ViewModels;
+@model JobProfileViewModel;
+@{
+    ViewData["Title"] = "Edit PersonalInformation";
+}
+<div class="row mt-3 ">
+    <div class="col-md-12 d-flex justify-content-between">
+        <h3 class="primary-text"></h3>
+        <a class="primary-text d-flex align-items-center" asp-action="Index" asp-controller="Applicant">
+            <i class="ri-arrow-left-s-line"></i> <span>Back to List</span>
+        </a>
+    </div>
+
+</div>
+    <div class="card box-shadow m-2 p-5">
+    <div class="card-body">
+
+<div class="row">
+    <div class="col-md-12">
+        <form asp-action="EditPersonalInformation">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row">
+                <div class="col-md-4">
+            <input type="hidden" asp-for="userID" />
+                    <div class="form-group">
+                        <label asp-for="Title" class="control-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+            
+            </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Name" class="control-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span asp-validation-for="Name" class="text-danger"></span>
+                    </div>
+         
+            </div>
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="PhoneNumber" class="control-label"></label>
+                <input asp-for="PhoneNumber" class="form-control" />
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+            </div></div>
+            <div class="row">
+                <div class="col-md-4">
+            <div class="form-group">
+                <label asp-for="AlternatePhoneNumber" class="control-label"></label>
+                <input asp-for="AlternatePhoneNumber" class="form-control" />
+                <span asp-validation-for="AlternatePhoneNumber" class="text-danger"></span>
+            </div>
+            </div>
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="DateOfBirth" class="control-label"></label>
+                <input asp-for="DateOfBirth" class="form-control" />
+                <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+            </div>
+            </div>
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="IDDocument" class="control-label"></label>
+                <input asp-for="IDDocument" class="form-control" />
+                <span asp-validation-for="IDDocument" class="text-danger"></span>
+            </div>
+            </div>
+            </div>
+            <div class="row">
+
+            <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="IDDocumentNumber" class="control-label"></label>
+                <input asp-for="IDDocumentNumber" class="form-control" />
+                <span asp-validation-for="IDDocumentNumber" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="Email" class="control-label"></label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            </div>
+            <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="MaritalStatus" class="control-label"></label>
+                <input asp-for="MaritalStatus" class="form-control" />
+                <span asp-validation-for="MaritalStatus" class="text-danger"></span>
+            </div></div>
+            </div>
+            <div class="row">
+
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="Gender" class="control-label"></label>
+                <input asp-for="Gender" class="form-control" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+            </div>
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="Address" class="control-label"></label>
+                <input asp-for="Address" class="form-control" />
+                <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            </div>
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="Nationality" class="control-label"></label>
+                <input asp-for="Nationality" class="form-control" />
+                <span asp-validation-for="Nationality" class="text-danger"></span>
+            </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+
+             <div class="form-group">
+                <label asp-for="County" class="control-label"></label>
+                <input asp-for="County" class="form-control" />
+                <span asp-validation-for="County" class="text-danger"></span>
+            </div>
+            </div>
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="Ethnicity" class="control-label"></label>
+                <input asp-for="Ethnicity" class="form-control" />
+                <span asp-validation-for="Ethnicity" class="text-danger"></span>
+            </div>
+            </div>
+                <div class="col-md-4">
+
+            <div class="form-group">
+                <label asp-for="Languages" class="control-label"></label>
+                <input asp-for="Languages" class="form-control" />
+                <span asp-validation-for="Languages" class="text-danger"></span>
+            </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label asp-for="Skills" class="control-label"></label>
+                        <input asp-for="Skills" class="form-control" />
+                        <span asp-validation-for="Skills" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-md-4 form-inline" id="checkDisability">
+                    <div class="form-check">
+                        <input class="form-check-input" asp-for="Disability" />
+                        <label class="form-check-label">@Html.DisplayNameFor(model => model.Disability)</label>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group" id="disabilityCondition">
+                        <label asp-for="DisabilityCondition" class="control-label"></label>
+                        <input asp-for="DisabilityCondition" class="form-control" />
+                        <span asp-validation-for="DisabilityCondition" class="text-danger"></span>
+                    </div>
+                </div>
+
+            </div>
+            <div class="form-group me">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+
+<script>
+    const checkDisability = document.querySelector('[name="Disability"]');
+    const disabilityCondition = document.getElementById('disabilityCondition');
+
+    checkDisability.addEventListener('change', function () {
+        if (checkDisability.checked) {
+            disabilityCondition.style.display = 'block';
+        } else {
+            disabilityCondition.style.display = 'none';
+        }
+    });
+    </script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

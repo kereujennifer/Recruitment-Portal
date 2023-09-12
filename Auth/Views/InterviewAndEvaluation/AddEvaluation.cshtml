@@ -1,0 +1,123 @@
+﻿@using Auth.Models.ViewModels;
+@model InterviewAndEvaluationViewModel
+
+@{
+    var btnText = "";
+    if (Model.isEdit)
+    {
+        ViewData["Title"] = "EditEvaluation";
+        btnText = "Update";
+    }
+    else
+    {
+        ViewData["Title"] = "AddEvaluation";
+        btnText = "Save";
+    }
+
+}
+<form asp-action="AddEvaluation">
+    <div class="row">
+        <div class="form-group col-md-6">
+            <label for="Title">Title:</label>
+            <input type="text" id="Title" name="Title" class="form-control" asp-for="Title" />
+        </div>
+
+        <div class="form-group col-md-6">
+            <label for="Description">Description:</label>
+            <textarea id="Description" name="Description" class="form-control" asp-for="Description"></textarea>
+        </div>
+    </div>
+    <h2>Evaluation Questions</h2>
+
+    <!-- Questions Section -->
+    <div id="questionsContainer">
+        <!-- Constant question and max points input fields -->
+        <div class="row">
+            <div class="form-group col-md-6">
+                <label>Question:</label>
+                <input type="text" class="form-control" name="Questions[0].QuestionText" />
+            </div>
+
+
+
+            <div class="form-group col-md-6">
+                <label>Max Points:</label>
+                <input type="number" class="form-control" name="Questions[0].MaxPoints" />
+            </div>
+
+        </div>
+    </div>
+    <button type="button" id="addQuestionButton" class="btn btn-primary ">Add Question</button>
+
+
+    <!-- Added Questions Section -->
+    <div>
+        <h2>Added Questions</h2>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>Question Text</th>
+                    <th>Max Points</th>
+                </tr>
+            </thead>
+            <tbody id="addedQuestionsTable">
+                <!-- Dynamically added questions will be displayed here -->
+            </tbody>
+        </table>
+
+        <div class="col-md-9 mb-2 d-flex justify-content-end mt-3">
+            <a type="button" class="btn btn-outline-primary-2" asp-action="Index">Cancel</a>
+            <button type="submit" class="btn btn-primary-2 ms-2">@btnText</button>
+        </div>
+    </div>
+</form>
+
+@section Scripts {
+    <script>
+        // JavaScript code to dynamically add questions
+        document.addEventListener("DOMContentLoaded", function () {
+            const questionsContainer = document.getElementById("questionsContainer");
+            const addQuestionButton = document.getElementById("addQuestionButton");
+            const addedQuestionsTable = document.getElementById("addedQuestionsTable");
+            const questionTextElement = document.querySelector("#questionsContainer input[name^='Questions[0].QuestionText']");
+            const maxPointsElement = document.querySelector("#questionsContainer input[name^='Questions[0].MaxPoints']");
+            let questionIndex = 1; // Initialize index for question elements
+
+            addQuestionButton.addEventListener("click", function () {
+                // Get the input values
+                const questionText = questionTextElement.value;
+                const maxPoints = maxPointsElement.value;
+
+                // Check if both fields have values
+                if (questionText.trim() === "" || maxPoints.trim() === "") {
+                    alert("Please enter both question text and max points.");
+                    return;
+                }
+
+                // Create a new question element
+                const questionElement = document.createElement("div");
+                questionElement.classList.add("question");
+
+
+
+                // Clear the input fields
+                questionTextElement.value = "";
+                maxPointsElement.value = "";
+
+                // Append the question element to the container
+                questionsContainer.appendChild(questionElement);
+
+                // Append the question data to the added questions table
+                const addedQuestionRow = document.createElement("tr");
+                addedQuestionRow.innerHTML = `
+                                    <td>${questionText}</td>
+                                    <td>${maxPoints}</td>
+                                `;
+                addedQuestionsTable.appendChild(addedQuestionRow);
+
+                // Increment the question index
+                questionIndex++;
+            });
+        });
+    </script>
+}

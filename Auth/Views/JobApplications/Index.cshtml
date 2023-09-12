@@ -1,0 +1,276 @@
+﻿@using Auth.Models.ViewModels;
+@model ApplyJobViewModel;
+@{
+    ViewData["Title"] = "Applications";
+}
+<div class="card shadow feedback">
+    <nav>
+
+        <div class="nav nav-tabs" id="nav-tab" role="tablist">
+            <button class="nav-link active" id="nav-Pending-tab" data-bs-toggle="tab" data-bs-target="#Pending" type="button" role="tab" aria-controls="nav-Pending" aria-selected="true">Pending</button>
+
+            <button class="nav-link" id="nav-Shortlisted-tab" data-bs-toggle="tab" data-bs-target="#Shortlisted" type="button" role="tab" aria-controls="nav-Shortlisted" aria-selected="false">Shortlisted</button>
+            <button class="nav-link" id="nav-Declined-tab" data-bs-toggle="tab" data-bs-target="#Declined" type="button" role="tab" aria-controls="nav-Declined" aria-selected="false">Declined</button>
+        </div>
+
+    </nav>
+    <div class="card">
+        <div class="card-body ">
+            <div class="tab-content ">
+                <div id="Pending" class="container tab-pane show active" aria-labelledby="nav-Pending-tab">
+      
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ReferenceNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+                              
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.JobTitle)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DateAdded)
+                                </th>
+                             @*   <th>
+                                    @Html.DisplayNameFor(model => model.JobId)
+                                </th>*@
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.PendingApplicants)
+                            {
+                                <tr>
+                                   
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+
+                                    </td>
+                          
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateAdded)
+                                    </td>
+                                   @* <td>
+                                        @Html.DisplayFor(modelItem => item.JobId)
+                                    </td>*@
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id">
+                                            <i class="ri-eye-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="eye"></i>
+                                        </a>
+                                        <a asp-action="Delete" asp-route-id="@item.Id">
+                                            <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div id="Shortlisted" class="container tab-pane fade" aria-labelledby="nav-Shortlisted-tab">
+                   
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ReferenceNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.JobTitle)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DateAdded)
+                                </th>
+                                @*   <th>
+                                @Html.DisplayNameFor(model => model.JobId)
+                                </th>*@
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.ShortlistedApplicants)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateAdded)
+                                    </td>
+                                    @* <td>
+                                @Html.DisplayFor(modelItem => item.JobId)
+                                </td>*@
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="edit"></i>
+                                        </a> 
+                                        <a asp-action="Details" asp-route-id="@item.Id">
+                                            <i class="ri-eye-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="eye"></i>
+                                        </a> 
+                                        <a asp-action="Delete" asp-route-id="@item.Id">
+                                            <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                </div>
+                <div id="Declined" class="container tab-pane fade" aria-labelledby="nav-Declined-tab">
+   
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.ReferenceNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Name)
+                                </th>
+
+                                <th>
+                                    @Html.DisplayNameFor(model => model.Email)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.PhoneNumber)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.JobTitle)
+                                </th>
+                                <th>
+                                    @Html.DisplayNameFor(model => model.DateAdded)
+                                </th>
+                                @*   <th>
+                                @Html.DisplayNameFor(model => model.JobId)
+                                </th>*@
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var item in Model.DeclinedApplicants)
+                            {
+                                <tr>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReferenceNumber)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Name)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Email)
+
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PhoneNumber)
+
+                                    </td>
+
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.JobTitle)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.DateAdded)
+                                    </td>
+                                    @* <td>
+                                @Html.DisplayFor(modelItem => item.JobId)
+                                </td>*@
+                                    <td>
+                                        <a asp-action="Edit" asp-route-id="@item.Id">
+                                            <i class="ri-edit-2-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="edit"></i>
+                                        </a>
+                                        <a asp-action="Details" asp-route-id="@item.Id">
+                                            <i class="ri-eye-line primary-text me-3" id="newsEditId" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="eye"></i>
+                                        </a> 
+                                        <a asp-action="Delete" asp-route-id="@item.Id">
+                                            <i class="ri-delete-bin-line text-danger" data-bs-toggle="tooltip" data-bs-placement="right"
+                                               data-bs-custom-class="custom-tooltip"
+                                               data-bs-title="delete"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                    
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
