@@ -33,6 +33,7 @@
     {
         <!-- Edit Mode -->
         <h3>Edit Questions:</h3>
+
         <div id="questionsContainerEdit">
             @for (var i = 0; i < Model.Questions.Count; i++)
             {
@@ -47,6 +48,7 @@
                     <label asp-for="MaxPoints" for="maxPoints_@i">Max Points:</label>
                     <input asp-for="MaxPoints"  type="number" id="maxPoints_@i" name="Questions[@i].MaxPoints" min="0" class="form-control" value="@question.MaxPoints" required />
                 </div>
+
             }
         </div>
 
@@ -122,6 +124,56 @@
 <!-- ... Previous form content ... -->
 @section Scripts {
     <script>
+        function deleteQuestion(button) {
+            const tableRow = button.closest("tr");
+            if (tableRow) {
+                tableRow.remove();
+            }
+        }
+        // Handle the "Add Question" button in the "Edit" mode
+        document.addEventListener("DOMContentLoaded", function () {
+            const addQuestionButton = document.getElementById("addQuestionEdit");
+            const questionsContainer = document.getElementById("questionsContainerEdit");
+
+            let questionCounter = @Model.Questions.Count;
+            function addQuestionToTable(question, maxPoints) {
+                const questionRowHtml = `
+                                        <tr>
+                                            <td>${question}</td>
+                                            <td>${maxPoints}</td>
+                                            <td><button type="button" class="btn btn-danger" onclick="deleteQuestion(this)">Delete</button></td>
+                                        </tr>
+                                    `;
+
+                addedQuestionsTableBody.innerHTML += questionRowHtml;
+            }
+
+            addQuestionButton.addEventListener("click", function () {
+                const questionHtml = `
+                                    <div class="form-group">
+                                        <label for="question_${questionCounter}">Question:</label>
+                                        <input type="text" id="question_${questionCounter}" name="Questions[${questionCounter}].Question" class="form-control" required />
+
+                                        <label for="maxPoints_${questionCounter}">Max Points:</label>
+                                        <input type="number" id="maxPoints_${questionCounter}" name="Questions[${questionCounter}].MaxPoints" min="0" class="form-control" required />
+                                    </div>
+                                `;
+
+                questionsContainer.insertAdjacentHTML("beforeend", questionHtml);
+                questionCounter++;
+            });
+        });
+
+    </script>
+
+
+    <script>
+        function deleteQuestion(button) {
+            const tableRow = button.closest("tr");
+            if (tableRow) {
+                tableRow.remove();
+            }
+        }
         document.addEventListener("DOMContentLoaded", function () {
             const addQuestionButton = document.getElementById("addQuestion");
             const addedQuestionsTableBody = document.getElementById("addedQuestionsTableBody");
@@ -129,6 +181,7 @@
             let questionCounter = 0;
 
             addQuestionButton.addEventListener("click", function () {
+                console.log("Add Question button clicked");
                 const questionInput = document.getElementById("question");
                 const maxPointsInput = document.getElementById("maxPoints");
                 const question = questionInput.value.trim(); // Trim leading and trailing spaces
@@ -136,11 +189,13 @@
 
                 if (question || maxPoints) {
                     const questionRowHtml = `
-                        <tr>
-                            <td>${question}</td>
-                            <td>${maxPoints}</td>
-                        </tr>
-                    `;
+                                <tr>
+                                    <td>${question}</td>
+                                    <td>${maxPoints}</td>
+                                                                                <td><button type="button" class="btn btn-danger" onclick="deleteQuestion(this)">Delete</button></td>
+
+                                </tr>
+                            `;
 
                     addedQuestionsTableBody.innerHTML += questionRowHtml;
 
@@ -158,28 +213,10 @@
                     maxPointsInput.value = "";
                 }
             });
-            
-            // Handle the "Add Question" button in the "Edit" mode
-            const addQuestionButtonEdit = document.getElementById("addQuestionEdit");
-            const questionsContainerEdit = document.getElementById("questionsContainerEdit");
 
-            let questionCounterEdit = @Model.Questions.Count;
-
-            addQuestionButtonEdit.addEventListener("click", function () {
-                const questionHtml = `
-                    <div class="form-group">
-                        <label for="question_${questionCounterEdit}">Question:</label>
-                        <input type="text" id="question_${questionCounterEdit}" name="Questions[${questionCounterEdit}].Question" class="form-control" required />
-
-                        <label for="maxPoints_${questionCounterEdit}">Max Points:</label>
-                        <input type="number" id="maxPoints_${questionCounterEdit}" name="Questions[${questionCounterEdit}].MaxPoints" min="0" class="form-control" required />
-                    </div>
-                `;
-
-                questionsContainerEdit.insertAdjacentHTML("beforeend", questionHtml);
-                questionCounterEdit++;
-            });
+          
         });
     </script>
 }
+
 

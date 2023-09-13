@@ -89,7 +89,27 @@
 
                 questionsContainer.insertAdjacentHTML("beforeend", questionHtml);
                 questionCounter++;
-            })
+            });
+            const addQuestionButtonEdit = document.getElementById("addQuestionEdit");
+            const questionsContainerEdit = document.getElementById("questionsContainerEdit");
+
+            let questionCounterEdit = @Model.Questions.Count;
+
+            addQuestionButtonEdit.addEventListener("click", function () {
+                console.log("Add Question in Edit Mode clicked"); // Add this log statement
+                const questionHtml = `
+                        <div class="form-group">
+                            <label for="question_${questionCounterEdit}">Question:</label>
+                            <input type="text" id="question_${questionCounterEdit}" name="Questions[${questionCounterEdit}].Question" class="form-control" required />
+
+                            <label for="maxPoints_${questionCounterEdit}">Max Points:</label>
+                            <input type="number" id="maxPoints_${questionCounterEdit}" name="Questions[${questionCounterEdit}].MaxPoints" min="0" class="form-control" required />
+                        </div>
+                    `;
+
+                questionsContainerEdit.insertAdjacentHTML("beforeend", questionHtml);
+                questionCounterEdit++;
+            });
         });
     </script>
     }
