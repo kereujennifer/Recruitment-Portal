@@ -23,6 +23,8 @@ namespace Auth.Models.ViewModels
         public string Question { get; set; }
         public ICollection<QuestionData> Questions { get; set; } = new List<QuestionData>();
 
-
+            public List<QuestionData> QuestionsToAdd { get; set; }
+        public List<QuestionData> QuestionsToEdit { get; set; }
+        public List<QuestionData> QuestionsToDelete { get; set; }
     }
 }

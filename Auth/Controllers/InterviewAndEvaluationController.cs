@@ -47,94 +47,7 @@ namespace Auth.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> AddInterView(int Id)
-        {
 
-            var eval = new InterviewAndEvaluationViewModel();
-            if (Id > 0)
-            {
-
-                var evaluation = _context.Evaluations.FirstOrDefault(d => d.Id == Id);
-                if (evaluation == null)
-                    if (evaluation == null)
-                    {
-                        TempData[Constants.Error] = "Sorry, evaluation not found!";
-                        return RedirectToAction("Index");
-                    }
-
-                eval.isEdit = true;
-                eval.Description = evaluation.Description;
-                eval.Title = evaluation.Title;
-              
-                eval.Questions = evaluation.Questions;
-                _context.SaveChanges();
-            }
-            return View(eval);
-        }
-        [HttpPost]
-        public async Task<IActionResult> AddInterView(InterviewAndEvaluationViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                if (model.Id > 0)
-                {
-                    var evaluation = _context.Evaluations.FirstOrDefault(d => d.Id == model.Id);
-                    if (evaluation == null)
-                        if (evaluation == null)
-                        {
-                            TempData[Constants.Error] = "Sorry, evaluation not found!";
-                            return RedirectToAction("Index");
-                        }
-                    evaluation.isEdit = true;
-                    evaluation.Description = model.Description;
-                    evaluation.Title = model.Title;
-                    evaluation.DateAdded = DateTime.Now;
-                    evaluation.Status = "InActive";
-                    evaluation.Questions = model.Questions;
-
-                    _context.Evaluations.Update(evaluation);
-                    _context.SaveChanges();
-                    TempData[Constants.Success] = "Updated Successful!";
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    Evaluation evaluation = new Evaluation
-                    {
-                        Description = model.Description,
-                        Title = model.Title,
-                        DateAdded = DateTime.Now,
-                        Status = "InActive",
-                        
-                        Questions = model.Questions
-
-                    };
-                    _context.Evaluations.Add(evaluation);
-                    _context.SaveChanges();
-
-                    TempData[Constants.Success] = "Added Successfully!!";
-                    return RedirectToAction("Index");
-                }
-            }
-            return View(model);
-        }
-        public async Task<IActionResult> DeleteInterView(int id)
-        {
-            var eval = _context.Evaluations.FirstOrDefault(c => c.Id == id);
-            if (eval != null)
-            {
-                _context.Evaluations.Remove(eval);
-                _context.SaveChanges();
-                TempData[Constants.Success] = "Deleted Successfully!!";
-                return RedirectToAction("Index");
-            }
-            else
-            {
-                TempData[Constants.Error] = "Sorry, record not found!";
-                return RedirectToAction("Index");
-            }
-        }
         [HttpGet]
         public IActionResult AddEvaluation(int? id)
         {
@@ -165,35 +78,44 @@ namespace Auth.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddEvaluation(InterviewAndEvaluationViewModel model, int id)
+        public IActionResult AddEvaluation(InterviewAndEvaluationViewModel model)
         {
             if (ModelState.IsValid)
             {
                 if (model.Id > 0)
                 {
-                    var evaluation = _context.Evaluations.Include(e => e.Questions).FirstOrDefault(e => e.Id == id);
+                    var evaluation = _context.Evaluations.Include(e => e.Questions).FirstOrDefault(e => e.Id == model.Id);
                     if (evaluation == null)
                     {
                         TempData[Constants.Error] = "Sorry, evaluation not found!";
                         return RedirectToAction("Index");
                     }
 
-                    evaluation.isEdit = true;
+                    // Update evaluation properties
                     evaluation.Description = model.Description;
                     evaluation.Title = model.Title;
                     evaluation.DateAdded = DateTime.Now;
                     evaluation.Status = "InActive";
 
-                    // Clear the existing questions
-                    evaluation.Questions.Clear();
-
-                    // Add the updated questions from the model
-                    foreach (var question in model.Questions)
+                    foreach (var updatedQuestion in model.Questions)
                     {
-                        evaluation.Questions.Add(question);
+                        // Find the corresponding existing question, or add as a new question if it doesn't exist
+                        var existingQuestion = evaluation.Questions.FirstOrDefault(q => q.Id == updatedQuestion.Id);
+
+                        if (existingQuestion != null)
+                        {
+                            // Update existing question properties
+                            existingQuestion.Question = updatedQuestion.Question;
+                            existingQuestion.MaxPoints = updatedQuestion.MaxPoints;
+                        }
+                        else
+                        {
+                            // If the question doesn't exist, add it
+                            evaluation.Questions.Add(updatedQuestion);
+
+                        }
                     }
 
-                    _context.Evaluations.Update(evaluation);
                     _context.SaveChanges();
                     TempData[Constants.Success] = "Updated Successfully!";
                     return RedirectToAction("Index");
@@ -222,6 +144,7 @@ namespace Auth.Controllers
         }
 
 
+
         public async Task<IActionResult> DeleteEvaluation(int id)
         {
             var eval = _context.Evaluations.FirstOrDefault(c => c.Id == id);
@@ -248,129 +171,6 @@ namespace Auth.Controllers
             return View(model);
         }
 
-        // GET: InterviewAndEvaluation/Details/5
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
 
-            var interviewAndEvaluationViewModel = await _context.InterviewAndEvaluationViewModel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (interviewAndEvaluationViewModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(interviewAndEvaluationViewModel);
-        }
-
-        // GET: InterviewAndEvaluation/Create
-        public IActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: InterviewAndEvaluation/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,Description,MaxPoints,Venue,InterViewDate,Question")] InterviewAndEvaluationViewModel interviewAndEvaluationViewModel)
-        {
-            if (ModelState.IsValid)
-            {
-                _context.Add(interviewAndEvaluationViewModel);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(interviewAndEvaluationViewModel);
-        }
-
-        // GET: InterviewAndEvaluation/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var interviewAndEvaluationViewModel = await _context.InterviewAndEvaluationViewModel.FindAsync(id);
-            if (interviewAndEvaluationViewModel == null)
-            {
-                return NotFound();
-            }
-            return View(interviewAndEvaluationViewModel);
-        }
-
-        // POST: InterviewAndEvaluation/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,MaxPoints,Venue,InterViewDate,Question")] InterviewAndEvaluationViewModel interviewAndEvaluationViewModel)
-        {
-            if (id != interviewAndEvaluationViewModel.Id)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(interviewAndEvaluationViewModel);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!InterviewAndEvaluationViewModelExists(interviewAndEvaluationViewModel.Id))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(interviewAndEvaluationViewModel);
-        }
-
-        // GET: InterviewAndEvaluation/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var interviewAndEvaluationViewModel = await _context.InterviewAndEvaluationViewModel
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (interviewAndEvaluationViewModel == null)
-            {
-                return NotFound();
-            }
-
-            return View(interviewAndEvaluationViewModel);
-        }
-
-        // POST: InterviewAndEvaluation/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var interviewAndEvaluationViewModel = await _context.InterviewAndEvaluationViewModel.FindAsync(id);
-            _context.InterviewAndEvaluationViewModel.Remove(interviewAndEvaluationViewModel);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool InterviewAndEvaluationViewModelExists(int id)
-        {
-            return _context.InterviewAndEvaluationViewModel.Any(e => e.Id == id);
-        }
     }
 }

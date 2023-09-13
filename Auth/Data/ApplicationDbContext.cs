@@ -27,7 +27,7 @@ namespace Auth.Data
 
         public DbSet<Evaluation> Evaluations { get; set; }
         public DbSet<QuestionData> Questions { get; set; }
-        public DbSet<Auth.Models.ViewModels.InterviewAndEvaluationViewModel> InterviewAndEvaluationViewModel { get; set; }
+        //public DbSet<Auth.Models.ViewModels.InterviewAndEvaluationViewModel> InterviewAndEvaluationViewModel { get; set; }
 
     }
 }

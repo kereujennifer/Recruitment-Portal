@@ -11,8 +11,8 @@ namespace Auth.Models
         public string Description { get; set; }
         public ICollection<QuestionData> Questions { get; set; } = new List<QuestionData>();
         public  string Status { get; set; }
-        [DataType(DataType.Date)]
         public bool isEdit { get; set; }
+        [DataType(DataType.Date)]
 
         public DateTime DateAdded { get; set; }
 

@@ -4,14 +4,16 @@ using Auth.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Auth.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230912092105_testRunFinalTrialFinale")]
+    partial class testRunFinalTrialFinale
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -363,6 +365,9 @@ namespace Auth.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("InterviewAndEvaluationViewModelId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("InterviewId")
                         .HasColumnType("int");
 
@@ -376,6 +381,8 @@ namespace Auth.Migrations
                         .HasColumnType("bit");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InterviewAndEvaluationViewModelId");
 
                     b.HasIndex("InterviewId");
 
@@ -478,6 +485,9 @@ namespace Auth.Migrations
                     b.Property<string>("Industry")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("InterviewAndEvaluationViewModelId")
+                        .HasColumnType("int");
+
                     b.Property<int?>("InterviewId")
                         .HasColumnType("int");
 
@@ -503,6 +513,8 @@ namespace Auth.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InterviewAndEvaluationViewModelId");
 
                     b.HasIndex("InterviewId");
 
@@ -585,6 +597,18 @@ namespace Auth.Migrations
                     b.Property<int?>("EvaluationId")
                         .HasColumnType("int");
 
+                    b.Property<int?>("InterviewAndEvaluationViewModelId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InterviewAndEvaluationViewModelId1")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InterviewAndEvaluationViewModelId2")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("InterviewAndEvaluationViewModelId3")
+                        .HasColumnType("int");
+
                     b.Property<int>("MaxPoints")
                         .HasColumnType("int");
 
@@ -594,6 +618,14 @@ namespace Auth.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("EvaluationId");
+
+                    b.HasIndex("InterviewAndEvaluationViewModelId");
+
+                    b.HasIndex("InterviewAndEvaluationViewModelId1");
+
+                    b.HasIndex("InterviewAndEvaluationViewModelId2");
+
+                    b.HasIndex("InterviewAndEvaluationViewModelId3");
 
                     b.ToTable("Questions");
                 });
@@ -632,6 +664,45 @@ namespace Auth.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("SeminarAndWorkshops");
+                });
+
+            modelBuilder.Entity("Auth.Models.ViewModels.InterviewAndEvaluationViewModel", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("DateAdded")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime>("InterViewDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("MaxPoints")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Question")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Status")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Title")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Venue")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("isEdit")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("InterviewAndEvaluationViewModel");
                 });
 
             modelBuilder.Entity("Auth.Models.WorkExperience", b =>
@@ -837,6 +908,10 @@ namespace Auth.Migrations
 
             modelBuilder.Entity("Auth.Models.Evaluation", b =>
                 {
+                    b.HasOne("Auth.Models.ViewModels.InterviewAndEvaluationViewModel", null)
+                        .WithMany("Evaluations")
+                        .HasForeignKey("InterviewAndEvaluationViewModelId");
+
                     b.HasOne("Auth.Models.Interview", null)
                         .WithMany("Evaluations")
                         .HasForeignKey("InterviewId");
@@ -851,6 +926,10 @@ namespace Auth.Migrations
 
             modelBuilder.Entity("Auth.Models.Jobs", b =>
                 {
+                    b.HasOne("Auth.Models.ViewModels.InterviewAndEvaluationViewModel", null)
+                        .WithMany("Jobs")
+                        .HasForeignKey("InterviewAndEvaluationViewModelId");
+
                     b.HasOne("Auth.Models.Interview", null)
                         .WithMany("Jobs")
                         .HasForeignKey("InterviewId");
@@ -861,6 +940,22 @@ namespace Auth.Migrations
                     b.HasOne("Auth.Models.Evaluation", null)
                         .WithMany("Questions")
                         .HasForeignKey("EvaluationId");
+
+                    b.HasOne("Auth.Models.ViewModels.InterviewAndEvaluationViewModel", null)
+                        .WithMany("Questions")
+                        .HasForeignKey("InterviewAndEvaluationViewModelId");
+
+                    b.HasOne("Auth.Models.ViewModels.InterviewAndEvaluationViewModel", null)
+                        .WithMany("QuestionsToAdd")
+                        .HasForeignKey("InterviewAndEvaluationViewModelId1");
+
+                    b.HasOne("Auth.Models.ViewModels.InterviewAndEvaluationViewModel", null)
+                        .WithMany("QuestionsToDelete")
+                        .HasForeignKey("InterviewAndEvaluationViewModelId2");
+
+                    b.HasOne("Auth.Models.ViewModels.InterviewAndEvaluationViewModel", null)
+                        .WithMany("QuestionsToEdit")
+                        .HasForeignKey("InterviewAndEvaluationViewModelId3");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

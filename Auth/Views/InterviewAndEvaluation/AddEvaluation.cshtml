@@ -16,108 +16,170 @@
 
 }
 <form asp-action="AddEvaluation">
+    <!-- Title and Description for both Create and Edit -->
     <div class="row">
         <div class="form-group col-md-6">
-            <label for="Title">Title:</label>
+            <label asp-for="Title">Title:</label>
             <input type="text" id="Title" name="Title" class="form-control" asp-for="Title" />
         </div>
 
         <div class="form-group col-md-6">
-            <label for="Description">Description:</label>
+            <label asp-for="Description">Description:</label>
             <textarea id="Description" name="Description" class="form-control" asp-for="Description"></textarea>
         </div>
     </div>
-    <h2>Evaluation Questions</h2>
 
-    <!-- Questions Section -->
-    <div id="questionsContainer">
-        <!-- Constant question and max points input fields -->
-        <div class="row">
-            <div class="form-group col-md-6">
-                <label>Question:</label>
-                <input type="text" class="form-control" name="Questions[0].QuestionText" />
-            </div>
+    @if (Model.isEdit)
+    {
+        <!-- Edit Mode -->
+        <h3>Edit Questions:</h3>
+        <div id="questionsContainerEdit">
+            @for (var i = 0; i < Model.Questions.Count; i++)
+            {
+                var question = Model.Questions.ElementAt(i);
 
+                <div class="form-group">
+                    <input type="hidden" name="Questions[@i].Id" value="@question.Id" /> <!-- Hidden field for the question's ID -->
 
+                    <label asp-for="Question" for="question_@i">Question:</label>
+                    <input asp-for="Question" type="text" id="question_@i" name="Questions[@i].Question" class="form-control" value="@question.Question" required />
 
-            <div class="form-group col-md-6">
-                <label>Max Points:</label>
-                <input type="number" class="form-control" name="Questions[0].MaxPoints" />
-            </div>
-
+                    <label asp-for="MaxPoints" for="maxPoints_@i">Max Points:</label>
+                    <input asp-for="MaxPoints"  type="number" id="maxPoints_@i" name="Questions[@i].MaxPoints" min="0" class="form-control" value="@question.MaxPoints" required />
+                </div>
+            }
         </div>
-    </div>
-    <button type="button" id="addQuestionButton" class="btn btn-primary ">Add Question</button>
 
+        <button type="button" class="btn btn-primary" id="addQuestionEdit">Add Question</button>
 
-    <!-- Added Questions Section -->
-    <div>
-        <h2>Added Questions</h2>
-        <table class="table table-bordered">
+        <!-- Table to display existing questions -->
+        <h3>Existing Questions:</h3>
+        <table class="table">
             <thead>
                 <tr>
-                    <th>Question Text</th>
+                    <th>Question</th>
                     <th>Max Points</th>
                 </tr>
             </thead>
-            <tbody id="addedQuestionsTable">
-                <!-- Dynamically added questions will be displayed here -->
+            <tbody>
+                @foreach (var question in Model.Questions)
+                {
+                    <tr>
+                        <td>@question.Question</td>
+                        <td>@question.MaxPoints</td>
+                    </tr>
+                }
             </tbody>
         </table>
+    }
+    else
+    {
+        <!-- Create Mode -->
+        <h2>Evaluation Questions</h2>
 
-        <div class="col-md-9 mb-2 d-flex justify-content-end mt-3">
-            <a type="button" class="btn btn-outline-primary-2" asp-action="Index">Cancel</a>
-            <button type="submit" class="btn btn-primary-2 ms-2">@btnText</button>
-        </div>
+        <!-- Questions Section for Create Mode -->
+      <h3>Questions:</h3>
+    <div class="form-group">
+            <label asp-for="Question">Question:</label>
+            <input asp-for="Question" type="text" id="question" name="Question" class="form-control" required />
     </div>
+    
+    <div class="form-group">
+            <label asp-for="MaxPoints">Max Points:</label>
+            <input asp-for ="MaxPoints" type="number" id="maxPoints" min="0" name="MaxPoints" class="form-control" required />
+    </div>
+
+        <button type="button" class="btn btn-primary" id="addQuestion">Add Question</button>
+        <div id="questionsContainer">
+        <!-- JavaScript will populate this container with added questions -->
+    </div>
+
+    <!-- ... Previous form content ... -->
+
+    <h3>Added Questions:</h3>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Question</th>
+                <th>Max Points</th>
+            </tr>
+        </thead>
+        <tbody id="addedQuestionsTableBody">
+            <!-- JavaScript will populate this table body with added questions -->
+        </tbody>
+    </table>
+    }
+    <div class="col-md-9 mb-2 d-flex justify-content-end mt-3">
+        <a type="button" class="btn btn-outline-primary-2" asp-action="Index">Cancel</a>
+        <button type="submit" class="btn btn-primary-2 ms-2">@btnText</button>
+    </div>
+
+   
 </form>
 
+
+
+<!-- ... Previous form content ... -->
 @section Scripts {
     <script>
-        // JavaScript code to dynamically add questions
         document.addEventListener("DOMContentLoaded", function () {
-            const questionsContainer = document.getElementById("questionsContainer");
-            const addQuestionButton = document.getElementById("addQuestionButton");
-            const addedQuestionsTable = document.getElementById("addedQuestionsTable");
-            const questionTextElement = document.querySelector("#questionsContainer input[name^='Questions[0].QuestionText']");
-            const maxPointsElement = document.querySelector("#questionsContainer input[name^='Questions[0].MaxPoints']");
-            let questionIndex = 1; // Initialize index for question elements
+            const addQuestionButton = document.getElementById("addQuestion");
+            const addedQuestionsTableBody = document.getElementById("addedQuestionsTableBody");
+
+            let questionCounter = 0;
 
             addQuestionButton.addEventListener("click", function () {
-                // Get the input values
-                const questionText = questionTextElement.value;
-                const maxPoints = maxPointsElement.value;
+                const questionInput = document.getElementById("question");
+                const maxPointsInput = document.getElementById("maxPoints");
+                const question = questionInput.value.trim(); // Trim leading and trailing spaces
+                const maxPoints = maxPointsInput.value;
 
-                // Check if both fields have values
-                if (questionText.trim() === "" || maxPoints.trim() === "") {
-                    alert("Please enter both question text and max points.");
-                    return;
+                if (question || maxPoints) {
+                    const questionRowHtml = `
+                        <tr>
+                            <td>${question}</td>
+                            <td>${maxPoints}</td>
+                        </tr>
+                    `;
+
+                    addedQuestionsTableBody.innerHTML += questionRowHtml;
+
+                    // Create hidden inputs only if a question is provided
+                    if (question) {
+                        const questionInputHtml = `<input type="hidden" name="Questions[${questionCounter}].Question" value="${question}" />`;
+                        const maxPointsInputHtml = `<input type="hidden" name="Questions[${questionCounter}].MaxPoints" value="${maxPoints}" />`;
+                        addedQuestionsTableBody.insertAdjacentHTML("beforeend", questionInputHtml);
+                        addedQuestionsTableBody.insertAdjacentHTML("beforeend", maxPointsInputHtml);
+                        questionCounter++;
+                    }
+
+                    // Clear the input fields after adding
+                    questionInput.value = "";
+                    maxPointsInput.value = "";
                 }
+            });
+            
+            // Handle the "Add Question" button in the "Edit" mode
+            const addQuestionButtonEdit = document.getElementById("addQuestionEdit");
+            const questionsContainerEdit = document.getElementById("questionsContainerEdit");
 
-                // Create a new question element
-                const questionElement = document.createElement("div");
-                questionElement.classList.add("question");
+            let questionCounterEdit = @Model.Questions.Count;
 
+            addQuestionButtonEdit.addEventListener("click", function () {
+                const questionHtml = `
+                    <div class="form-group">
+                        <label for="question_${questionCounterEdit}">Question:</label>
+                        <input type="text" id="question_${questionCounterEdit}" name="Questions[${questionCounterEdit}].Question" class="form-control" required />
 
+                        <label for="maxPoints_${questionCounterEdit}">Max Points:</label>
+                        <input type="number" id="maxPoints_${questionCounterEdit}" name="Questions[${questionCounterEdit}].MaxPoints" min="0" class="form-control" required />
+                    </div>
+                `;
 
-                // Clear the input fields
-                questionTextElement.value = "";
-                maxPointsElement.value = "";
-
-                // Append the question element to the container
-                questionsContainer.appendChild(questionElement);
-
-                // Append the question data to the added questions table
-                const addedQuestionRow = document.createElement("tr");
-                addedQuestionRow.innerHTML = `
-                                    <td>${questionText}</td>
-                                    <td>${maxPoints}</td>
-                                `;
-                addedQuestionsTable.appendChild(addedQuestionRow);
-
-                // Increment the question index
-                questionIndex++;
+                questionsContainerEdit.insertAdjacentHTML("beforeend", questionHtml);
+                questionCounterEdit++;
             });
         });
     </script>
 }
+
