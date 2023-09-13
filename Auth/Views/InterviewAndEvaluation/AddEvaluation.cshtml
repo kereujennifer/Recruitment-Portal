@@ -69,6 +69,7 @@
                     <tr>
                         <td>@question.Question</td>
                         <td>@question.MaxPoints</td>
+                        <td><button type="button" class="btn btn-danger" onclick="deleteQuestion(this)">Delete</button></td>
                     </tr>
                 }
             </tbody>
@@ -136,19 +137,10 @@
             const questionsContainer = document.getElementById("questionsContainerEdit");
 
             let questionCounter = @Model.Questions.Count;
-            function addQuestionToTable(question, maxPoints) {
-                const questionRowHtml = `
-                                        <tr>
-                                            <td>${question}</td>
-                                            <td>${maxPoints}</td>
-                                            <td><button type="button" class="btn btn-danger" onclick="deleteQuestion(this)">Delete</button></td>
-                                        </tr>
-                                    `;
 
-                addedQuestionsTableBody.innerHTML += questionRowHtml;
-            }
 
             addQuestionButton.addEventListener("click", function () {
+
                 const questionHtml = `
                                     <div class="form-group">
                                         <label for="question_${questionCounter}">Question:</label>
@@ -157,7 +149,10 @@
                                         <label for="maxPoints_${questionCounter}">Max Points:</label>
                                         <input type="number" id="maxPoints_${questionCounter}" name="Questions[${questionCounter}].MaxPoints" min="0" class="form-control" required />
                                     </div>
+
                                 `;
+               
+                                   
 
                 questionsContainer.insertAdjacentHTML("beforeend", questionHtml);
                 questionCounter++;
